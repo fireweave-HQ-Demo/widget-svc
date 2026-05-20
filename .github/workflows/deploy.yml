@@ -58,6 +58,8 @@ jobs:
             cd "$DEPLOY_PATH"
             git fetch origin
             git checkout "$DEPLOY_BRANCH"
+            git add .
+            git stash push -m "deploy-$(date +%s)" || true
             git pull origin "$DEPLOY_BRANCH"
             {
               echo "POSTHOG_API_KEY=${POSTHOG_API_KEY:-}"
