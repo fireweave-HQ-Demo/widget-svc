@@ -19,7 +19,7 @@ Add repository **secrets**: `SSH_HOST`=`217.216.59.25`, `SSH_USER`=`root`, `SSH_
 
 One-time on the VM: run [`../scripts/server-bootstrap.sh`](../scripts/server-bootstrap.sh) (see [`../SETUP-WIDGETS.md`](../SETUP-WIDGETS.md)).
 
-Live: `http://217.216.59.25:3101/health`
+Default VM path: `/root/test/widget-svc`. Live: `http://217.216.59.25:3101/health`
 
 ## FireWeave wiring
 
