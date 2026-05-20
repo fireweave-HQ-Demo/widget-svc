@@ -1,0 +1,91 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    environment: production
+
+    permissions:
+      contents: read
+      deployments: write
+
+    env:
+      DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+
+    steps:
+      - name: Create GitHub deployment
+        id: deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const deployment = await github.rest.repos.createDeployment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: context.sha,
+              environment: 'production',
+              auto_merge: false,
+              required_contexts: [],
+            });
+            core.setOutput('deployment_id', deployment.data.id);
+
+      - name: Deploy over SSH
+        id: ssh_deploy
+        uses: appleboy/ssh-action@v1.2.0
+        env:
+          DEPLOY_PATH: ${{ env.DEPLOY_PATH }}
+          GITHUB_SHA: ${{ github.sha }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          envs: DEPLOY_PATH,GITHUB_SHA
+          script: |
+            set -euo pipefail
+            export PATH="/root/.bun/bin:$PATH"
+            DEPLOY_PATH="${DEPLOY_PATH:-/opt/fireweave/widget-svc}"
+            echo "[deploy] path=$DEPLOY_PATH sha=$GITHUB_SHA"
+            cd "$DEPLOY_PATH"
+            git fetch origin
+            git checkout main
+            git reset --hard "$GITHUB_SHA" 2>/dev/null || git reset --hard origin/main
+            bun install
+            bun run build
+            systemctl restart widget-svc
+            sleep 1
+            curl -sf "http://127.0.0.1:3101/health" | head -c 200
+            echo ""
+            echo "[deploy] widget-svc healthy"
+
+      - name: Mark deployment success
+        if: steps.ssh_deploy.outcome == 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: Number('${{ steps.deployment.outputs.deployment_id }}'),
+              state: 'success',
+              environment: 'production',
+              description: 'Deployed to ${{ secrets.SSH_HOST }}',
+            });
+
+      - name: Mark deployment failure
+        if: steps.ssh_deploy.outcome != 'success'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.createDeploymentStatus({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              deployment_id: Number('${{ steps.deployment.outputs.deployment_id }}'),
+              state: 'failure',
+              environment: 'production',
+              description: 'SSH deploy failed',
+            });
+            core.setFailed('SSH deploy failed');
