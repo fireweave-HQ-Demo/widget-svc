@@ -1,0 +1,70 @@
+{
+  "orgId": "F58gdkA4pUKdH3Ae4xJTJKHkJ8LfmzH1",
+  "projectId": "213a4010-325f-4b1c-8223-9278839f8637",
+  "projectName": "widget",
+  "server": {
+    "url": "https://app-server.fireweave.ai",
+    "kind": "cloud"
+  },
+  "cli": {
+    "initVersion": "1.2.1"
+  },
+  "version": 1,
+  "defaultEnvironment": "prod",
+  "rolloutReady": {
+    "initialized": true,
+    "language": "typescript",
+    "strategy": "promote-not-wrap",
+    "sourceRoots": ["src"],
+    "scanExclude": ["**/*.test.ts", "**/*.spec.ts", "**/__tests__/**"],
+    "mcp": {
+      "mode": "cursor-plugin"
+    },
+    "sdkDev": false,
+    "deploySdkVersion": "0.1.2",
+    "trackerPath": "src/fireweave/fw-tracker/index.ts",
+    "changelogPath": ".fireweave/changelog",
+    "harnessPath": "src/fireweave/fw-harness.ts",
+    "harnessEntrypoint": "src/index.ts",
+    "rolloutCredentialEnv": "POSTHOG_PROJECT_API_KEY",
+    "attestUrl": "https://app-server.fireweave.ai",
+    "defaultEnvironment": "prod",
+    "promotionEnvironment": "prod",
+    "posthogProjectId": "393610",
+    "environments": {
+      "prod": {
+        "tier": "prod",
+        "posthogProjectId": "393610"
+      }
+    },
+    "installedInto": [
+      "src/fireweave/fw-harness.ts",
+      "src/fireweave/fw-providers.ts",
+      "src/fireweave/fw-tracker/index.ts",
+      "src/index.ts",
+      ".fireweave/agent-instructions.md",
+      ".fireweave/PROVIDERS.md",
+      ".fireweave/config.json",
+      ".fireweave/changelog/",
+      ".fireweave/rollout-ready/",
+      ".fireweave/hooks/rollout-build-gate.mjs",
+      ".fireweave/hooks/rollout-build-gate.sh",
+      ".fireweave/deploy-beacon.env.local",
+      ".fireweave/.gitignore",
+      "AGENTS.md",
+      ".cursor/rules/fireweave-rollout-ready.mdc",
+      ".cursor/hooks.json",
+      ".cursor/hooks/fireweave-rollout-session.sh",
+      ".cursor/hooks/fireweave-rollout-stop.sh",
+      ".cursor/skills/initialise",
+      ".cursor/skills/safe-rollout",
+      ".cursor/skills/safe-rollout-fast",
+      ".cursor/skills/cleanup",
+      ".fireweave/rollout-ready/widget-demo-feature.json",
+      "src/feature.ts",
+      ".github/workflows/deploy.yml",
+      "package.json",
+      "bun.lock"
+    ]
+  }
+}

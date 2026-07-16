@@ -1,0 +1,19 @@
+---
+description: FireWeave rollout-ready — mandatory conventions for every feature change in an initialised repo
+alwaysApply: true
+---
+
+# FireWeave rollout-ready (promote-not-wrap)
+
+Read [.fireweave/agent-instructions.md](.fireweave/agent-instructions.md).
+
+## HARD ORDER — every user-facing or flag-gated feature
+
+1. **FIRST** create/update `.fireweave/rollout-ready/<feature>.json` (Manifest contract in agent-instructions) + mint `chg_`/`stmp_` + append stamp to `FW_STAMPS`.
+2. Implement behind the harness OpenFeature provider with `// @fireweave-flag <key>` at each evaluation site.
+3. **BEFORE done** call `mcp__rollout-server__assert_dev_checklist` with `{ feature }` — PARK on any block (includes dummy metrics with no emit sites). Also `reconcile` phase `build`.
+4. Backfill after coding is forbidden. Do not write repo-local `mcp/`.
+
+## Ship path
+
+`/fireweave:safe-rollout-fast` promotes existing rollout-ready work only. If `assert_dev_checklist` fails, finish the package first — do not use `/fireweave:safe-rollout` unless explicitly migrating legacy code.

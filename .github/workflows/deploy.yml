@@ -41,14 +41,18 @@ jobs:
           DEPLOY_PATH: ${{ env.DEPLOY_PATH }}
           DEPLOY_BRANCH: ${{ env.DEPLOY_BRANCH }}
           POSTHOG_API_KEY: ${{ secrets.POSTHOG_API_KEY }}
+          POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY }}
           POSTHOG_HOST: ${{ vars.POSTHOG_HOST }}
           FLAG_KEY: ${{ env.FLAG_KEY }}
+          FW_ATTEST_URL: ${{ secrets.FW_ATTEST_URL }}
+          FW_PROJECT_API_KEY: ${{ secrets.FW_PROJECT_API_KEY }}
+          FW_ENV: prod
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           port: ${{ secrets.SSH_PORT || 22 }}
-          envs: DEPLOY_PATH,DEPLOY_BRANCH,POSTHOG_API_KEY,POSTHOG_HOST,FLAG_KEY
+          envs: DEPLOY_PATH,DEPLOY_BRANCH,POSTHOG_API_KEY,POSTHOG_PROJECT_API_KEY,POSTHOG_HOST,FLAG_KEY,FW_ATTEST_URL,FW_PROJECT_API_KEY,FW_ENV
           script: |
             set -euo pipefail
             export PATH="/root/.bun/bin:/usr/local/bin:$PATH"
@@ -63,8 +67,12 @@ jobs:
             git pull origin "$DEPLOY_BRANCH"
             {
               echo "POSTHOG_API_KEY=${POSTHOG_API_KEY:-}"
+              echo "POSTHOG_PROJECT_API_KEY=${POSTHOG_PROJECT_API_KEY:-${POSTHOG_API_KEY:-}}"
               echo "POSTHOG_HOST=${POSTHOG_HOST:-https://us.i.posthog.com}"
               echo "FLAG_KEY=${FLAG_KEY:-widget-demo-feature}"
+              echo "FW_ATTEST_URL=${FW_ATTEST_URL:-}"
+              echo "FW_PROJECT_API_KEY=${FW_PROJECT_API_KEY:-}"
+              echo "FW_ENV=${FW_ENV:-prod}"
               echo "PORT=3101"
               echo "HOST=0.0.0.0"
             } > .env

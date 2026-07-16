@@ -1,5 +1,8 @@
 import { Elysia } from 'elysia';
+import { initFwHarness } from './fireweave/fw-harness';
 import { FLAG_KEY, maybeNewBehavior } from './feature';
+
+await initFwHarness();
 
 const port = Number(process.env.PORT ?? 3101);
 

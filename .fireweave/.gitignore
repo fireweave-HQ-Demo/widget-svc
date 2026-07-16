@@ -1,0 +1,3 @@
+.cache/
+local.json
+deploy-beacon.env.local

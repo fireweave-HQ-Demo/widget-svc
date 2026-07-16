@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "surface": "ts-server",
+  "language": "typescript",
+  "runtime": "bun"
+}

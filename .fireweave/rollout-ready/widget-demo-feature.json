@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "feature": "widget-demo-feature",
+  "changeType": "new-feature",
+  "userFacing": true,
+  "change": {
+    "id": "chg_19F6AC07D88DD21B9841287A36",
+    "stampId": "stmp_19F6AC07D88DD21B9841287A36",
+    "title": "Widget demo feature flag",
+    "description": "Existing PostHog-gated demo behavior; rollout-ready package for harness smoke.",
+    "author": "181fa04376@gmail.com",
+    "createdAt": "2026-07-16T11:45:00.000Z",
+    "branch": "main",
+    "backwardCompatible": "required",
+    "supersedes": [],
+    "supersededBy": [],
+    "status": "in-progress"
+  },
+  "flagTelemetryProvider": "connected:posthog",
+  "flags": [
+    {
+      "key": "widget-demo-feature",
+      "default": false,
+      "cohortKey": "userId",
+      "userFacing": true,
+      "description": "Off: demo returns enabled=false. On: maybeNewBehavior returns true when PostHog enables the flag.",
+      "tags": ["demo", "widget"]
+    }
+  ],
+  "wrapPoints": [
+    {
+      "file": "src/feature.ts",
+      "symbol": "maybeNewBehavior",
+      "wrapStyle": "method-guard",
+      "flagKey": "widget-demo-feature"
+    }
+  ],
+  "context": { "targetingKey": "userId", "dimensions": [] },
+  "telemetry": {
+    "metrics": [],
+    "logs": [],
+    "traces": [],
+    "dimensions": []
+  },
+  "harness": {
+    "surface": "ts-server",
+    "path": "src/fireweave/fw-harness.ts",
+    "rolloutCredentialEnv": "POSTHOG_PROJECT_API_KEY",
+    "attestUrlEnv": "FW_ATTEST_URL",
+    "attestCredentialEnv": "FW_PROJECT_API_KEY",
+    "posthogProjectId": "393610",
+    "flags": {
+      "api": "openfeature",
+      "sdk": "server",
+      "devProvider": "in-memory",
+      "rolloutProvider": "connected:posthog"
+    },
+    "telemetry": {
+      "api": "otel",
+      "devExporter": "console",
+      "rolloutTransport": "otlp",
+      "semconv": "fireweave/rollout-otel-semconv-v1",
+      "signals": {}
+    }
+  }
+}

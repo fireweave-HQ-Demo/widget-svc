@@ -20,6 +20,7 @@ function getClient(): PostHog | null {
  * Single wrap-point for FireWeave safe-rollout demos.
  * Empty body after the check is intentional.
  */
+// @fireweave-flag widget-demo-feature
 export async function maybeNewBehavior(userId: string): Promise<boolean> {
   const ph = getClient();
   if (!ph) return false;
