@@ -1,6 +1,7 @@
 import { Elysia } from 'elysia';
 import { initFwHarness } from './fireweave/fw-harness';
 import { FLAG_KEY, maybeNewBehavior } from './feature';
+import { resolveExperimentMeta } from './experimentMeta';
 
 await initFwHarness();
 
@@ -14,7 +15,13 @@ const app = new Elysia()
   }))
   .get('/demo/:userId', async ({ params }) => {
     const enabled = await maybeNewBehavior(params.userId);
-    return { userId: params.userId, flagKey: FLAG_KEY, enabled };
+    const experimentMeta = await resolveExperimentMeta(params.userId);
+    return {
+      userId: params.userId,
+      flagKey: FLAG_KEY,
+      enabled,
+      ...(experimentMeta ? { experimentMeta } : {}),
+    };
   })
   .listen(port);
 

@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "feature": "widget-experiment-meta",
+  "changeType": "new-feature",
+  "userFacing": false,
+  "change": {
+    "id": "chg_01KXNECNWQ2KJS1N7K5RQW0ZP3",
+    "stampId": "stmp_01KXNECNWQ2KJS1N7K5RQW0ZP3",
+    "title": "Dark-launch experimentMeta on demo API",
+    "description": "When flag on, /demo/:userId includes experimentMeta; UI ignores until widget-experiment-meta-ui.",
+    "author": "181fa04376@gmail.com",
+    "createdAt": "2026-07-16T12:28:48.000Z",
+    "branch": "feat/experiment-meta-dark-launch",
+    "backwardCompatible": "required",
+    "supersedes": [],
+    "supersededBy": [],
+    "status": "in-progress"
+  },
+  "flagTelemetryProvider": "connected:posthog",
+  "flags": [
+    {
+      "key": "widget-experiment-meta",
+      "default": false,
+      "cohortKey": "userId",
+      "userFacing": false,
+      "description": "Off: /demo/:userId has no experimentMeta. On: response includes experimentMeta (dark-launch; clients should ignore until UI flag).",
+      "tags": ["demo", "dark-launch", "api"]
+    }
+  ],
+  "wrapPoints": [
+    {
+      "file": "src/experimentMeta.ts",
+      "symbol": "resolveExperimentMeta",
+      "wrapStyle": "method-guard",
+      "flagKey": "widget-experiment-meta"
+    }
+  ],
+  "context": { "targetingKey": "userId", "dimensions": [] },
+  "telemetry": {
+    "metrics": [
+      {
+        "name": "feature.widget-experiment-meta.adopted",
+        "role": "adoption",
+        "direction": "up-good",
+        "guards": "widget-experiment-meta"
+      },
+      {
+        "name": "feature.widget-experiment-meta.error",
+        "role": "adoption",
+        "direction": "up-bad",
+        "guards": "widget-experiment-meta"
+      }
+    ],
+    "logs": [],
+    "traces": [],
+    "dimensions": []
+  },
+  "harness": {
+    "surface": "ts-server",
+    "path": "src/fireweave/fw-harness.ts",
+    "rolloutCredentialEnv": "POSTHOG_PROJECT_API_KEY",
+    "attestUrlEnv": "FW_ATTEST_URL",
+    "attestCredentialEnv": "FW_PROJECT_API_KEY",
+    "posthogProjectId": "393610",
+    "flags": {
+      "api": "openfeature",
+      "sdk": "server",
+      "devProvider": "in-memory",
+      "rolloutProvider": "connected:posthog"
+    },
+    "telemetry": {
+      "api": "otel",
+      "devExporter": "console",
+      "rolloutTransport": "otlp",
+      "semconv": "fireweave/rollout-otel-semconv-v1",
+      "signals": {}
+    }
+  }
+}
