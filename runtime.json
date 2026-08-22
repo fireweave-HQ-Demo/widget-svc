@@ -1,0 +1,25 @@
+{
+  "destination": "control",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18004,
+        "atlas-web": 18005,
+        "collector-otlp": 18006,
+        "collector-status": 18007
+      },
+      "running": true
+    }
+  ],
+  "fireweave": {
+    "instance": "prod",
+    "status": "unconfigured",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/sample-atlas"
+  },
+  "updatedAt": "2026-08-22T04:45:07.382Z"
+}
