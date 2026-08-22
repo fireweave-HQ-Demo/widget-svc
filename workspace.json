@@ -1,0 +1,47 @@
+{
+  "name": "verify_git_a",
+  "persistence": "ephemeral",
+  "identity": false,
+  "identityUserCount": 0,
+  "apps": [
+    {
+      "id": "atlas",
+      "kind": "pair",
+      "stack": "bun+react",
+      "services": [
+        "atlas-api",
+        "atlas-web"
+      ]
+    }
+  ],
+  "destination": "control",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "staging",
+    "status": "unconfigured",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/verify_git_a"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18016,
+        "atlas-web": 18017,
+        "collector-otlp": 18018,
+        "collector-status": 18019
+      },
+      "running": false
+    }
+  ],
+  "ports": {
+    "atlas-api": 18016,
+    "atlas-web": 18017,
+    "collector-otlp": 18018,
+    "collector-status": 18019
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}
