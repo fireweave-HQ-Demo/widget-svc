@@ -39,6 +39,7 @@ function healthPlugin(): Plugin {
 
 export default defineConfig({
   plugins: [react(), healthPlugin()],
+  envPrefix: ["VITE_", "PUBLIC_"],
   server: { host: true, port: 5173, strictPort: true },
   preview: { host: true, port: 5173, strictPort: true },
 });

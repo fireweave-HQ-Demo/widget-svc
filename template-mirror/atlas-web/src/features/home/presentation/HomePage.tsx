@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { RuntimeContext } from "../../../core/runtime-context";
 import type { AuthSession } from "../../identity/domain/session";
 import { clearSession } from "../../identity/application/auth-api";
+import {
+  fetchOrgRoster,
+  type OrgRosterTeammate,
+} from "../../org-roster/application/fetch-org-roster";
 import { buildHomeModel } from "../application/home-model";
 import { probeApi } from "../application/probe-api";
 
@@ -15,6 +19,21 @@ export function HomePage({
   const model = buildHomeModel(ctx);
   const [probe, setProbe] = useState("Idle — probe the pair API.");
   const [klass, setKlass] = useState("");
+  const [roster, setRoster] = useState<{
+    org: string;
+    teammates: OrgRosterTeammate[];
+  } | null>(null);
+
+  useEffect(() => {
+    if (!session) {
+      setRoster(null);
+      return;
+    }
+    void fetchOrgRoster(ctx.apiBase, session.sessionToken).then((result) => {
+      if (result.ok) setRoster({ org: result.org, teammates: result.teammates });
+      else setRoster(null);
+    });
+  }, [ctx.apiBase, session]);
 
   return (
     <main className="shell">
@@ -27,6 +46,26 @@ export function HomePage({
           <div className="row"><dt>Evaluation</dt><dd>{session.evaluationContext.distinctId}</dd></div>
           <div className="row"><dt>Org / plan</dt><dd>{session.user.org} · {session.user.plan}</dd></div>
         </dl>
+      ) : null}
+      {roster ? (
+        <section className="card roster">
+          <h2>Org roster · {roster.org}</h2>
+          {roster.teammates.length === 0 ? (
+            <p className="lede">No other teammates in this org.</p>
+          ) : (
+            <ul className="roster-list">
+              {roster.teammates.map((u) => (
+                <li key={u.id}>
+                  <strong>{u.name}</strong>
+                  <span>{u.email}</span>
+                  <em>
+                    {u.plan} · {u.country}
+                  </em>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
       ) : null}
       <dl className="card">
         <div className="row"><dt>Environment</dt><dd>{model.environment}</dd></div>

@@ -9,6 +9,9 @@
     "start": "vite preview --host 0.0.0.0 --port 5173"
   },
   "dependencies": {
+    "@fireweaveai/deploy-sdk": "^0.2.2",
+    "@fireweaveai/web-sdk": "^2.1.0",
+    "@openfeature/web-sdk": "^1.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

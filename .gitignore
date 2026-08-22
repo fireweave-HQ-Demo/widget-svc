@@ -1,3 +1,32 @@
+# Install / build artifacts
+node_modules/
+dist/
+build/
+out/
+target/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+.gradle/
+*.class
+*.jar
+*.tsbuildinfo
+coverage/
+.nyc_output/
+*.log
+.DS_Store
+
+# Secrets (keep *.example)
+.env
+.env.*
+!.env.example
+
+# Bench local-only
 .fireweave/.cache/
 agent-repo/
 template-mirror/bench-copied

@@ -1,3 +1,7 @@
+import {
+  reloadFireweaveFlags,
+  syncFireweaveUser,
+} from "../../../fireweave/fw-providers";
 import type { AuthSession, BenchUser } from "../domain/session";
 
 const KEY = "bench.sessionToken";
@@ -32,6 +36,7 @@ export async function loginAs(
   if (!res.ok) throw new Error(`login ${res.status}`);
   const data = (await res.json()) as AuthSession;
   sessionStorage.setItem(KEY, data.sessionToken);
+  await syncFireweaveUser(data.user.id, data.evaluationContext.properties);
   return data;
 }
 
@@ -50,9 +55,12 @@ export async function restoreSession(apiBase: string): Promise<AuthSession | nul
     return null;
   }
   const data = (await res.json()) as Omit<AuthSession, "sessionToken">;
-  return { sessionToken: token, ...data };
+  const session = { sessionToken: token, ...data };
+  await syncFireweaveUser(session.user.id, session.evaluationContext.properties);
+  return session;
 }
 
 export function clearSession() {
   sessionStorage.removeItem(KEY);
+  void reloadFireweaveFlags("anonymous");
 }

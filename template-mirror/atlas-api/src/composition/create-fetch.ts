@@ -8,6 +8,7 @@ import {
   handleAuthSession,
   handleAuthUsers,
 } from "../features/identity/presentation/http/handle-auth";
+import { handleOrgRoster } from "../features/org-roster/presentation/http/handle-org-roster";
 
 const CORS: HeadersInit = {
   "access-control-allow-origin": "*",
@@ -44,6 +45,9 @@ export function createFetch(
       }
       if (path === "/auth/session") {
         return handleAuthSession(identity, req);
+      }
+      if (path === "/org/roster" && req.method === "GET") {
+        return handleOrgRoster(identity, req);
       }
       return new Response("not found\n", { status: 404 });
     });

@@ -18,7 +18,8 @@
   "exporterStatus": "healthy",
   "fireweave": {
     "instance": "staging",
-    "status": "unconfigured",
+    "status": "linked",
+    "mcpUrl": "https://staging-mcp.fireweave.ai/mcp",
     "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
     "agentGitBaseBranch": "main",
     "agentGitBranch": "bench/demo_ko"

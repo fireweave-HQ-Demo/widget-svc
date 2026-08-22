@@ -19,6 +19,11 @@ export function createJsonIdentityStore(input: {
     listUsers(limit) {
       return users.slice(0, Math.max(1, limit));
     },
+    listByOrg(org, limit) {
+      return users
+        .filter((u) => u.org === org)
+        .slice(0, Math.max(1, limit));
+    },
     login(userId) {
       const user = byId.get(userId);
       if (!user) return null;

@@ -27,10 +27,11 @@
   ],
   "fireweave": {
     "instance": "staging",
-    "status": "unconfigured",
+    "status": "linked",
+    "mcpUrl": "https://staging-mcp.fireweave.ai/mcp",
     "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
     "agentGitBaseBranch": "main",
     "agentGitBranch": "bench/demo_ko"
   },
-  "updatedAt": "2026-08-22T08:10:45.462Z"
+  "updatedAt": "2026-08-22T08:10:53.713Z"
 }
