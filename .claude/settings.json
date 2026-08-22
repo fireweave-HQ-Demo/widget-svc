@@ -1,0 +1,14 @@
+{
+  "enabledPlugins": {
+    "fireweave@fireweave": true
+  },
+  "extraKnownMarketplaces": {
+    "fireweave": {
+      "source": {
+        "source": "directory",
+        "path": "/workspaces/fireweaveai-platform/packages/fw-plugins/dist"
+      },
+      "autoUpdate": false
+    }
+  }
+}

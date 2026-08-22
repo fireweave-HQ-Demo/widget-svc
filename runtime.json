@@ -1,0 +1,28 @@
+{
+  "destination": "control",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18032,
+        "atlas-web": 18033,
+        "collector-otlp": 18034,
+        "collector-status": 18035
+      },
+      "running": true
+    }
+  ],
+  "fireweave": {
+    "instance": "local",
+    "status": "linked",
+    "apiUrl": "http://fw-server:3001",
+    "repoPath": "/workspaces/fireweaveai-platform/packages/fw-cli/bin/fw",
+    "marketplacePath": "/workspaces/fireweaveai-platform/packages/fw-plugins/dist",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/sample_skills_git"
+  },
+  "updatedAt": "2026-08-22T17:42:27.216Z"
+}
