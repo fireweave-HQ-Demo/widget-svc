@@ -1,0 +1,47 @@
+{
+  "name": "sample-harbor",
+  "persistence": "ephemeral",
+  "identity": false,
+  "identityUserCount": 0,
+  "apps": [
+    {
+      "id": "harbor",
+      "kind": "pair",
+      "stack": "node+vue",
+      "services": [
+        "harbor-api",
+        "harbor-web"
+      ]
+    }
+  ],
+  "destination": "control",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "prod",
+    "status": "unconfigured",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/sample-harbor"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "harbor-api": 18008,
+        "harbor-web": 18009,
+        "collector-otlp": 18010,
+        "collector-status": 18011
+      },
+      "running": true
+    }
+  ],
+  "ports": {
+    "harbor-api": 18008,
+    "harbor-web": 18009,
+    "collector-otlp": 18010,
+    "collector-status": 18011
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}

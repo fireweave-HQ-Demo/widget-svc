@@ -1,0 +1,5 @@
+{
+  "service": "harbor-api",
+  "environment": "dev",
+  "stack": "node+vue"
+}
