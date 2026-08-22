@@ -1,0 +1,8 @@
+# OpenObserve — merge into config.yaml after setting bench/credentials/openobserve
+# exporters:
+#   otlphttp/openobserve:
+#     endpoint: ${env:OPENOBSERVE_URL}
+#     headers:
+#       Authorization: "Basic ${env:OPENOBSERVE_AUTH}"
+#       organization: ${env:OPENOBSERVE_ORG}
+# Then add otlphttp/openobserve to pipelines and reseed the collector volume.
