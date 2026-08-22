@@ -1,0 +1,38 @@
+{
+  "destination": "openobserve",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18008,
+        "atlas-web": 18009,
+        "collector-otlp": 18010,
+        "collector-status": 18011
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "atlas-api": 18012,
+        "atlas-web": 18013,
+        "collector-otlp": 18014,
+        "collector-status": 18015
+      },
+      "running": false
+    }
+  ],
+  "fireweave": {
+    "instance": "local",
+    "status": "unconfigured",
+    "apiUrl": "http://fw-server:3001",
+    "repoPath": "/workspaces/fireweaveai-platform",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/demo1"
+  },
+  "updatedAt": "2026-08-22T16:39:22.279Z"
+}
