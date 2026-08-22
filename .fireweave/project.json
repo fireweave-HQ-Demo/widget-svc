@@ -1,0 +1,15 @@
+{
+  "orgId": "F58gdkA4pUKdH3Ae4xJTJKHkJ8LfmzH1",
+  "projectId": "07bc08f6-42b7-4164-9c1a-5b4252a0d20d",
+  "projectName": "test-bench",
+  "server": {
+    "url": "https://app-server.fireweave.ai",
+    "kind": "cloud"
+  },
+  "repoState": "server",
+  "cli": {
+    "initVersion": "2.0.2"
+  },
+  "version": 1,
+  "defaultEnvironment": "prod"
+}
