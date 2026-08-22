@@ -1,0 +1,50 @@
+{
+  "name": "test_sample_z",
+  "persistence": "ephemeral",
+  "identity": false,
+  "identityUserCount": 0,
+  "apps": [
+    {
+      "id": "atlas",
+      "kind": "pair",
+      "stack": "bun+react",
+      "services": [
+        "atlas-api",
+        "atlas-web"
+      ]
+    }
+  ],
+  "destination": "control",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "local",
+    "status": "linked",
+    "apiUrl": "http://fw-server:3001",
+    "repoPath": "/workspaces/fireweaveai-platform/packages/fw-cli/bin/fw",
+    "marketplacePath": "/workspaces/fireweaveai-platform/packages/fw-plugins/dist",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/test_sample_z"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18044,
+        "atlas-web": 18045,
+        "collector-otlp": 18046,
+        "collector-status": 18047
+      },
+      "running": true
+    }
+  ],
+  "ports": {
+    "atlas-api": 18044,
+    "atlas-web": 18045,
+    "collector-otlp": 18046,
+    "collector-status": 18047
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}
