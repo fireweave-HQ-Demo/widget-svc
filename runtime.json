@@ -1,0 +1,26 @@
+{
+  "destination": "openobserve",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18012,
+        "atlas-web": 18013,
+        "collector-otlp": 18014,
+        "collector-status": 18015
+      },
+      "running": true
+    }
+  ],
+  "fireweave": {
+    "instance": "staging",
+    "status": "linked",
+    "mcpUrl": "https://staging-mcp.fireweave.ai/mcp",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/demo_k3"
+  },
+  "updatedAt": "2026-08-22T08:05:40.327Z"
+}

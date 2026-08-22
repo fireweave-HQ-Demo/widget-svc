@@ -1,0 +1,48 @@
+{
+  "name": "demo_k3",
+  "persistence": "persistent",
+  "identity": true,
+  "identityUserCount": 1000,
+  "apps": [
+    {
+      "id": "atlas",
+      "kind": "pair",
+      "stack": "bun+react",
+      "services": [
+        "atlas-api",
+        "atlas-web"
+      ]
+    }
+  ],
+  "destination": "openobserve",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "staging",
+    "status": "linked",
+    "mcpUrl": "https://staging-mcp.fireweave.ai/mcp",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/demo_k3"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18012,
+        "atlas-web": 18013,
+        "collector-otlp": 18014,
+        "collector-status": 18015
+      },
+      "running": true
+    }
+  ],
+  "ports": {
+    "atlas-api": 18012,
+    "atlas-web": 18013,
+    "collector-otlp": 18014,
+    "collector-status": 18015
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}
