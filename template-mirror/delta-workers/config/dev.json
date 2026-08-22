@@ -1,0 +1,4 @@
+{
+  "service": "delta-workers",
+  "environment": "dev"
+}

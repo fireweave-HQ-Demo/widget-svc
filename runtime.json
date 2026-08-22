@@ -1,0 +1,26 @@
+{
+  "destination": "control",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "delta-gateway": 18012,
+        "delta-orders": 18013,
+        "delta-workers": 18014,
+        "collector-otlp": 18015,
+        "collector-status": 18016
+      },
+      "running": true
+    }
+  ],
+  "fireweave": {
+    "instance": "prod",
+    "status": "unconfigured",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/sample-delta"
+  },
+  "updatedAt": "2026-08-22T04:46:16.742Z"
+}

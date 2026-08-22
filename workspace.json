@@ -1,0 +1,50 @@
+{
+  "name": "sample-delta",
+  "persistence": "ephemeral",
+  "identity": false,
+  "identityUserCount": 0,
+  "apps": [
+    {
+      "id": "delta",
+      "kind": "microservices",
+      "stack": "ts-microservices",
+      "services": [
+        "delta-gateway",
+        "delta-orders",
+        "delta-workers"
+      ]
+    }
+  ],
+  "destination": "control",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "prod",
+    "status": "unconfigured",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/sample-delta"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "delta-gateway": 18012,
+        "delta-orders": 18013,
+        "delta-workers": 18014,
+        "collector-otlp": 18015,
+        "collector-status": 18016
+      },
+      "running": true
+    }
+  ],
+  "ports": {
+    "delta-gateway": 18012,
+    "delta-orders": 18013,
+    "delta-workers": 18014,
+    "collector-otlp": 18015,
+    "collector-status": 18016
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}
