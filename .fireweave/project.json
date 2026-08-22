@@ -1,0 +1,61 @@
+{
+  "cli": {
+    "initVersion": "2.0.2"
+  },
+  "defaultEnvironment": "prod",
+  "orgId": "wSKWkS4a768YWPNISKLjhnFUwJKArZXb",
+  "projectId": "f1822760-9931-4d6d-87e7-c1eb900b980f",
+  "projectName": "test-bench",
+  "repoState": "server",
+  "rolloutReady": {
+    "attestUrl": "https://staging-app-server.fireweave.ai",
+    "defaultEnvironment": "prod",
+    "environments": {
+      "prod": {
+        "posthogProjectId": "534547",
+        "tier": "prod"
+      }
+    },
+    "harnessEntrypoint": "template-mirror/atlas-api/src/main.ts",
+    "harnessPath": "template-mirror/atlas-api/src/fireweave/fw-harness.ts",
+    "harnesses": [
+      {
+        "entrypoint": "template-mirror/atlas-api/src/main.ts",
+        "path": "template-mirror/atlas-api/src/fireweave/fw-harness.ts",
+        "surface": "ts-server"
+      },
+      {
+        "entrypoint": "template-mirror/atlas-web/src/main.tsx",
+        "path": "template-mirror/atlas-web/src/fireweave/fw-harness.ts",
+        "surface": "web"
+      }
+    ],
+    "posthogProjectId": "534547",
+    "promotionEnvironment": "prod",
+    "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
+    "trackerPath": "template-mirror/atlas-api/src/fw-tracker/index.ts",
+    "webRolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
+    "webTrackerPath": "template-mirror/atlas-web/src/fw-tracker/index.ts"
+  },
+  "server": {
+    "kind": "custom",
+    "url": "https://staging-app-server.fireweave.ai"
+  },
+  "surfaces": [
+    {
+      "entrypoint": "template-mirror/atlas-api/src/main.ts",
+      "path": "template-mirror/atlas-api/src/fireweave/fw-harness.ts",
+      "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
+      "surface": "ts-server",
+      "surfaceId": "sfc_01M0M8XEH57RHPM20QV06Y98CY"
+    },
+    {
+      "entrypoint": "template-mirror/atlas-web/src/main.tsx",
+      "path": "template-mirror/atlas-web/src/fireweave/fw-harness.ts",
+      "rolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
+      "surface": "web",
+      "surfaceId": "sfc_01M0M8XEH57RHPM20QV06Y98CZ"
+    }
+  ],
+  "version": 2
+}

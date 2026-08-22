@@ -1,0 +1,9 @@
+{
+  "plugins": {
+    "fireweave/fireweave": {
+      "enabled": true,
+      "gitUrl": "https://github.com/FireWeave-HQ/plugins-marketplace-staging",
+      "gitRef": "main"
+    }
+  }
+}
