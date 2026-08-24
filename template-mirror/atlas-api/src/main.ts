@@ -1,8 +1,11 @@
 import { serve } from "bun";
 import { bootstrap } from "./composition/bootstrap";
 import { createFetch } from "./composition/create-fetch";
+import { initFwHarness } from "./fireweave/fw-harness";
 
 /** Entrypoint — composition only. */
+await initFwHarness();
+
 const { ctx, telemetry, port, identity } = bootstrap(3000);
 
 serve({

@@ -1,0 +1,42 @@
+{
+  "orgId": "z2SZpl4o4aufgXpB5gJDYrNwEJHznRzm",
+  "projectId": "14b64fde-6c13-4a17-b1dd-6e1e6c7a5d6d",
+  "projectName": "Bench Oodle E2E",
+  "server": {
+    "url": "http://fw-server:3001",
+    "kind": "custom"
+  },
+  "repoState": "server",
+  "cli": {
+    "initVersion": "2.0.2"
+  },
+  "version": 2,
+  "defaultEnvironment": "prod",
+  "env": "prod",
+  "surfaces": [
+    {
+      "surface": "ts-server",
+      "path": "template-mirror/atlas-api/src/fireweave/fw-harness.ts",
+      "entrypoint": "template-mirror/atlas-api/src/main.ts",
+      "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
+      "trackerPath": "template-mirror/atlas-api/src/fw-tracker/index.ts",
+      "sdk": {
+        "name": "@fireweaveai/server-sdk",
+        "version": "2.2.1-staging.1",
+        "channel": "stable"
+      }
+    },
+    {
+      "surface": "web",
+      "path": "template-mirror/atlas-web/src/fireweave/fw-harness.ts",
+      "entrypoint": "template-mirror/atlas-web/src/main.tsx",
+      "rolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
+      "trackerPath": "template-mirror/atlas-web/src/fw-tracker/index.ts",
+      "sdk": {
+        "name": "@fireweaveai/web-sdk",
+        "version": "2.1.0",
+        "channel": "stable"
+      }
+    }
+  ]
+}

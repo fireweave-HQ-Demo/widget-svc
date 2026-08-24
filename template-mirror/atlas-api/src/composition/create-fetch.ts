@@ -3,6 +3,7 @@ import type { Telemetry } from "../features/telemetry/application/ports/telemetr
 import type { IdentityStore } from "../features/identity/application/ports/identity-store";
 import { handleHealth } from "../features/health/presentation/http/handle-health";
 import { handleHome } from "../features/home/presentation/http/handle-home";
+import { handleMoodChip } from "../features/home/presentation/http/handle-mood-chip";
 import {
   handleAuthConfig,
   handleAuthSession,
@@ -38,6 +39,7 @@ export function createFetch(
       const path = new URL(req.url).pathname;
       if (path === "/health") return handleHealth(ctx, telemetry);
       if (path === "/") return handleHome(ctx);
+      if (path === "/mood-chip") return handleMoodChip(telemetry);
       if (path === "/auth/config") return handleAuthConfig(identity);
       if (path === "/auth/users" && req.method === "GET") {
         return handleAuthUsers(identity, req);
