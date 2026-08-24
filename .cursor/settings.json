@@ -1,0 +1,9 @@
+{
+  "plugins": {
+    "fireweave/fireweave": {
+      "enabled": true,
+      "gitUrl": "/workspaces/fireweaveai-platform/packages/fw-plugins/dist",
+      "gitRef": "main"
+    }
+  }
+}
