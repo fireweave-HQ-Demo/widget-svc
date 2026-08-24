@@ -1,0 +1,5 @@
+.cache/
+local.json
+.lock
+deploy-beacon.env.local
+.queue/
