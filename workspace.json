@@ -1,0 +1,51 @@
+{
+  "name": "dd_e2e",
+  "persistence": "ephemeral",
+  "identity": false,
+  "identityUserCount": 0,
+  "apps": [
+    {
+      "id": "atlas",
+      "kind": "pair",
+      "stack": "bun+react",
+      "services": [
+        "atlas-api",
+        "atlas-web"
+      ]
+    }
+  ],
+  "destination": "datadog",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "local",
+    "status": "linked",
+    "apiUrl": "http://fw-server:3001",
+    "repoPath": "/workspaces/fireweaveai-platform",
+    "cliPath": "/workspaces/fireweaveai-platform/packages/fw-cli/bin/fw",
+    "marketplacePath": "/workspaces/fireweaveai-platform/packages/fw-plugins/dist",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/dd_e2e"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18084,
+        "atlas-web": 18086,
+        "collector-otlp": 18087,
+        "collector-status": 18088
+      },
+      "running": true
+    }
+  ],
+  "ports": {
+    "atlas-api": 18084,
+    "atlas-web": 18086,
+    "collector-otlp": 18087,
+    "collector-status": 18088
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}

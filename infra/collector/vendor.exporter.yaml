@@ -1,0 +1,5 @@
+# Datadog — credentials at bench/credentials/datadog
+# Spawn/UI with --dd-api-key/--dd-site wires the datadog exporter automatically.
+# Manual:
+#   DD_API_KEY=...
+#   DD_SITE=datadoghq.com
