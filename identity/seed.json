@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "workspace": "tue_test",
+  "generatedAt": "2026-08-25T15:31:46.871Z",
+  "source": "generated",
+  "userCount": 10,
+  "users": [
+    {
+      "id": "user_0001",
+      "email": "user1@globex.example",
+      "name": "User 1",
+      "org": "globex",
+      "plan": "pro",
+      "country": "IN"
+    },
+    {
+      "id": "user_0002",
+      "email": "user2@initech.example",
+      "name": "User 2",
+      "org": "initech",
+      "plan": "enterprise",
+      "country": "DE"
+    },
+    {
+      "id": "user_0003",
+      "email": "user3@umbrella.example",
+      "name": "User 3",
+      "org": "umbrella",
+      "plan": "free",
+      "country": "BR"
+    },
+    {
+      "id": "user_0004",
+      "email": "user4@acme.example",
+      "name": "User 4",
+      "org": "acme",
+      "plan": "pro",
+      "country": "JP"
+    },
+    {
+      "id": "user_0005",
+      "email": "user5@globex.example",
+      "name": "User 5",
+      "org": "globex",
+      "plan": "enterprise",
+      "country": "GB"
+    },
+    {
+      "id": "user_0006",
+      "email": "user6@initech.example",
+      "name": "User 6",
+      "org": "initech",
+      "plan": "free",
+      "country": "AU"
+    },
+    {
+      "id": "user_0007",
+      "email": "user7@umbrella.example",
+      "name": "User 7",
+      "org": "umbrella",
+      "plan": "pro",
+      "country": "CA"
+    },
+    {
+      "id": "user_0008",
+      "email": "user8@acme.example",
+      "name": "User 8",
+      "org": "acme",
+      "plan": "enterprise",
+      "country": "US"
+    },
+    {
+      "id": "user_0009",
+      "email": "user9@globex.example",
+      "name": "User 9",
+      "org": "globex",
+      "plan": "free",
+      "country": "IN"
+    },
+    {
+      "id": "user_0010",
+      "email": "user10@initech.example",
+      "name": "User 10",
+      "org": "initech",
+      "plan": "pro",
+      "country": "DE"
+    }
+  ]
+}

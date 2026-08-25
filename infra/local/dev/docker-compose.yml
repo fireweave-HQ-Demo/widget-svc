@@ -15,10 +15,13 @@ services:
       OTEL_SERVICE_NAME: atlas-api
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=tue_test,deployment.environment=dev
+      IDENTITY_ENABLED: "true"
+      IDENTITY_SEED_PATH: /data/identity/seed.json
     ports:
       - "0.0.0.0:18008:3000"
     volumes:
       - bench-tue_test-atlas-api:/app
+      - bench-tue_test-identity:/data/identity:ro
     networks: [bench]
     depends_on: [collector]
     command: ["bun","--hot","run","src/main.ts"]
@@ -39,10 +42,12 @@ services:
       VITE_DESTINATION: openobserve
       VITE_API_PORT: "18008"
       VITE_OTEL_PORT: "18010"
+      VITE_IDENTITY_ENABLED: "true"
     ports:
       - "0.0.0.0:18009:5173"
     volumes:
       - bench-tue_test-atlas-web:/app
+      - bench-tue_test-identity:/data/identity:ro
     networks: [bench]
     depends_on: [collector]
     command: ["bun","run","dev","--","--host","0.0.0.0","--port","5173"]
@@ -70,4 +75,6 @@ volumes:
   bench-tue_test-atlas-web:
     external: true
   bench-tue_test-collector:
+    external: true
+  bench-tue_test-identity:
     external: true

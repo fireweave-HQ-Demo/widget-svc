@@ -1,8 +1,8 @@
 {
   "name": "tue_test",
   "persistence": "ephemeral",
-  "identity": false,
-  "identityUserCount": 0,
+  "identity": true,
+  "identityUserCount": 10,
   "apps": [
     {
       "id": "atlas",
@@ -48,7 +48,7 @@
         "collector-otlp": 18014,
         "collector-status": 18015
       },
-      "running": false
+      "running": true
     }
   ],
   "ports": {

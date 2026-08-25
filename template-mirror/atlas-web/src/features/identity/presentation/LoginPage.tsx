@@ -6,6 +6,21 @@ import {
   loginAs,
   restoreSession,
 } from "../application/auth-api";
+import {
+  resetFireweaveUser,
+  syncFireweaveUser,
+} from "../../../fireweave/fw-providers";
+
+async function bindFwUser(session: AuthSession): Promise<void> {
+  // Cohort identity — always-on (INIT-S8); never behind a flag.
+  const p = session.evaluationContext.properties;
+  await syncFireweaveUser(session.user.id, {
+    plan: p.plan,
+    beta: p.beta,
+    org: p.org,
+    country: p.country,
+  });
+}
 
 export function LoginPage({
   ctx,
@@ -46,6 +61,7 @@ export function LoginPage({
                 setError("");
                 try {
                   const session = await loginAs(ctx.apiBase, u.id);
+                  await bindFwUser(session);
                   onLoggedIn(session);
                 } catch (e) {
                   setError(e instanceof Error ? e.message : String(e));
@@ -78,8 +94,15 @@ export function useAuthGate(ctx: RuntimeContext) {
       return;
     }
     void restoreSession(ctx.apiBase)
-      .then(setSession)
-      .catch(() => setSession(null));
+      .then(async (s) => {
+        if (s) await bindFwUser(s);
+        else await resetFireweaveUser();
+        setSession(s);
+      })
+      .catch(async () => {
+        await resetFireweaveUser();
+        setSession(null);
+      });
   }, [ctx.apiBase, ctx.identityEnabled]);
 
   return { session, setSession, loading: session === undefined };

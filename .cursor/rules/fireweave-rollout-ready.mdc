@@ -1,0 +1,20 @@
+---
+description: FireWeave rollout-ready — mandatory conventions for every feature change in an initialised repo
+alwaysApply: true
+---
+
+# FireWeave rollout-ready (promote-not-wrap)
+
+Read [.fireweave/agent-instructions.md](.fireweave/agent-instructions.md).
+
+## HARD ORDER — every user-facing or flag-gated feature
+
+1. **FIRST** author the manifest with `mcp_rollout-server_upsert_rollout_manifest` `{ feature, manifest, baseContentHash }` (Manifest contract in agent-instructions) + mint `chg_`/`stmp_` + apply the stamp policy (per-surface stamps by default — append each stamp to its own surface's `FW_STAMPS`; one shared stamp only when single-project + every surface's harness is surface-aware). **FireWeave stores the manifest — do not write a manifest file yourself.**
+2. Implement behind the harness control point (`fw.controlPoints.getBooleanValue(<key>, false, ctx)`) with `// @fireweave-controlpoint <key>` at each evaluation site.
+3. **BEFORE done** call `mcp_rollout-server_assert_dev_checklist` with `{ feature }` — PARK on any block (includes dummy metrics with no emit sites). Also `reconcile` phase `build`.
+4. Backfill after coding is forbidden. Do not write repo-local `mcp/`.
+5. **Absence has names.** `never-authored` is the only one that means author a manifest. `not-fetched` → `fw sync`; `not-authorized` → the manifests are withheld, not absent (`fw login` / ask an admin); `server-unavailable` → retry; `queued` → you already authored it, drain `.fireweave/.queue/`. Never author to clear the last four.
+
+## Ship path
+
+`/fw-rollout` promotes existing rollout-ready work only. If `assert_dev_checklist` fails, finish the package first — there is no wrap-from-scratch path.

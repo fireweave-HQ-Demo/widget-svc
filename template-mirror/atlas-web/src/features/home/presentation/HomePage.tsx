@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { RuntimeContext } from "../../../core/runtime-context";
 import type { AuthSession } from "../../identity/domain/session";
 import { clearSession } from "../../identity/application/auth-api";
 import { buildHomeModel } from "../application/home-model";
 import { probeApi } from "../application/probe-api";
+import { fw } from "../../../fireweave/fw-harness";
+import { increment } from "../../telemetry/infrastructure/start-browser-otel";
+import {
+  applyUserTheme,
+  clearUserTheme,
+  themeForUser,
+  type UserTheme,
+} from "../../theme/domain/user-theme";
 
 export function HomePage({
   ctx,
@@ -15,6 +23,25 @@ export function HomePage({
   const model = buildHomeModel(ctx);
   const [probe, setProbe] = useState("Idle — probe the pair API.");
   const [klass, setKlass] = useState("");
+  const [activeTheme, setActiveTheme] = useState<UserTheme | null>(null);
+
+  useEffect(() => {
+    // @fireweave-flag user-theme
+    // @fireweave-controlpoint user-theme
+    const enabled = fw.controlPoints.getBooleanValue("user-theme", false);
+    if (!enabled || !session?.user?.id) {
+      clearUserTheme();
+      setActiveTheme(null);
+      return;
+    }
+    const theme = themeForUser(session.user.id);
+    applyUserTheme(theme);
+    setActiveTheme(theme);
+    void increment(ctx, "user_theme.applied");
+    return () => {
+      clearUserTheme();
+    };
+  }, [ctx, session]);
 
   return (
     <main className="shell">
@@ -26,6 +53,9 @@ export function HomePage({
           <div className="row"><dt>Signed in</dt><dd>{session.user.name} ({session.user.email})</dd></div>
           <div className="row"><dt>Evaluation</dt><dd>{session.evaluationContext.distinctId}</dd></div>
           <div className="row"><dt>Org / plan</dt><dd>{session.user.org} · {session.user.plan}</dd></div>
+          {activeTheme ? (
+            <div className="row"><dt>Theme</dt><dd>{activeTheme.label} ({activeTheme.id})</dd></div>
+          ) : null}
         </dl>
       ) : null}
       <dl className="card">
@@ -52,6 +82,7 @@ export function HomePage({
             className="link"
             onClick={() => {
               clearSession();
+              clearUserTheme();
               location.reload();
             }}
           >
