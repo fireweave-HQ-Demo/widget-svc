@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+export FW_CLI_VERSION="${FW_CLI_VERSION:-0.1.0}"
+exec '/workspaces/fireweaveai-platform/packages/fw-cli/bin/fw' "$@"
