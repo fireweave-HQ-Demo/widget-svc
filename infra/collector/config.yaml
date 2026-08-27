@@ -1,0 +1,39 @@
+# Workspace collector — destination=openobserve (live)
+# OTLP → OpenObserve via otlphttp/openobserve (+ debug).
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - http://127.0.0.1:*
+            - http://localhost:*
+            - http://*
+          allowed_headers:
+            - "*"
+
+exporters:
+  debug:
+    verbosity: basic
+  otlphttp/openobserve:
+    endpoint: ${env:OPENOBSERVE_URL}
+    headers:
+      Authorization: "Basic ${env:OPENOBSERVE_AUTH}"
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [debug, otlphttp/openobserve]
+    logs:
+      receivers: [otlp]
+      exporters: [debug, otlphttp/openobserve]
+    metrics:
+      receivers: [otlp]
+      exporters: [debug, otlphttp/openobserve]
