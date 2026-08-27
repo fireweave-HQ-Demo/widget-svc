@@ -1,0 +1,12 @@
+{
+  "managedBy": "bench-fireweave-link",
+  "skills": [
+    "fw-rollout",
+    "fw-feedback",
+    "fw-initialise",
+    "fw-cleanup",
+    "fw-adopt",
+    "fw-migrate-harness"
+  ],
+  "source": "/workspaces/fireweaveai-platform/.worktrees/test-bench/bench/workspaces/oo_widget/tooling/marketplace"
+}
