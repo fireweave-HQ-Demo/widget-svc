@@ -1,0 +1,7 @@
+{
+  "terminal.integrated.env.linux": {
+    "PATH": "${workspaceFolder}/tooling/bin:${env:PATH}",
+    "_FIREWEAVE_BENCH_MANAGED": "1"
+  },
+  "_fireweave-bench-managed": true
+}

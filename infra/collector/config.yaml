@@ -1,0 +1,42 @@
+# Workspace collector — destination=oodle (live)
+# OTLP → Oodle via otlphttp/oodle (+ debug).
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - http://127.0.0.1:*
+            - http://localhost:*
+            - http://*
+          allowed_headers:
+            - "*"
+
+exporters:
+  debug:
+    verbosity: basic
+  otlphttp/oodle:
+    traces_endpoint: ${env:OODLE_TRACES_ENDPOINT}
+    metrics_endpoint: ${env:OODLE_METRICS_ENDPOINT}
+    logs_endpoint: ${env:OODLE_LOGS_ENDPOINT}
+    headers:
+      X-OODLE-INSTANCE: ${env:OODLE_INSTANCE}
+      X-API-KEY: ${env:OODLE_API_KEY}
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [debug, otlphttp/oodle]
+    logs:
+      receivers: [otlp]
+      exporters: [debug, otlphttp/oodle]
+    metrics:
+      receivers: [otlp]
+      exporters: [debug, otlphttp/oodle]
