@@ -1,0 +1,38 @@
+{
+  "destination": "datadog",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "cove-gateway": 18034,
+        "cove-orders": 18035,
+        "cove-workers": 18036,
+        "collector-otlp": 18037,
+        "collector-status": 18038
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "cove-gateway": 18029,
+        "cove-orders": 18030,
+        "cove-workers": 18031,
+        "collector-otlp": 18032,
+        "collector-status": 18033
+      },
+      "running": false
+    }
+  ],
+  "fireweave": {
+    "instance": "prod",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/dd_cove"
+  },
+  "updatedAt": "2026-08-29T07:12:28.892Z"
+}

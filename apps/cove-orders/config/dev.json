@@ -1,0 +1,5 @@
+{
+  "service": "cove-orders",
+  "environment": "dev",
+  "stack": "polyglot-microservices"
+}

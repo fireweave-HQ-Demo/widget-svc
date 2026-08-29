@@ -1,0 +1,67 @@
+{
+  "name": "dd_cove",
+  "persistence": "ephemeral",
+  "identity": false,
+  "identityUserCount": 0,
+  "apps": [
+    {
+      "id": "cove",
+      "kind": "microservices",
+      "stack": "polyglot-microservices",
+      "services": [
+        "cove-gateway",
+        "cove-orders",
+        "cove-workers"
+      ],
+      "serviceStacks": {
+        "cove-gateway": "ts-microservices",
+        "cove-orders": "python-api",
+        "cove-workers": "swift-api"
+      }
+    }
+  ],
+  "destination": "datadog",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "prod",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/dd_cove"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "cove-gateway": 18034,
+        "cove-orders": 18035,
+        "cove-workers": 18036,
+        "collector-otlp": 18037,
+        "collector-status": 18038
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "cove-gateway": 18029,
+        "cove-orders": 18030,
+        "cove-workers": 18031,
+        "collector-otlp": 18032,
+        "collector-status": 18033
+      },
+      "running": false
+    }
+  ],
+  "ports": {
+    "cove-gateway": 18004,
+    "cove-orders": 18005,
+    "cove-workers": 18006,
+    "collector-otlp": 18007,
+    "collector-status": 18028
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}

@@ -1,0 +1,5 @@
+{
+  "service": "cove-gateway",
+  "environment": "dev",
+  "stack": "polyglot-microservices"
+}
