@@ -6,7 +6,6 @@ import {
   loginAs,
   restoreSession,
 } from "../application/auth-api";
-import { syncFireweaveUser } from "../../../../fireweave/fw-providers";
 
 export function LoginPage({
   ctx,
@@ -47,7 +46,6 @@ export function LoginPage({
                 setError("");
                 try {
                   const session = await loginAs(ctx.apiBase, u.id);
-                  void syncFireweaveUser(session.user.id, session.evaluationContext.properties);
                   onLoggedIn(session);
                 } catch (e) {
                   setError(e instanceof Error ? e.message : String(e));
@@ -80,12 +78,7 @@ export function useAuthGate(ctx: RuntimeContext) {
       return;
     }
     void restoreSession(ctx.apiBase)
-      .then((sess) => {
-        if (sess) {
-          void syncFireweaveUser(sess.user.id, sess.evaluationContext.properties);
-        }
-        setSession(sess);
-      })
+      .then(setSession)
       .catch(() => setSession(null));
   }, [ctx.apiBase, ctx.identityEnabled]);
 

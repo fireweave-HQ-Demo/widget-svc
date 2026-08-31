@@ -57,7 +57,7 @@
         "collector-otlp": 18018,
         "collector-status": 18019
       },
-      "running": false
+      "running": true
     }
   ],
   "ports": {

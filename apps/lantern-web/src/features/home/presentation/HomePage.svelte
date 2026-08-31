@@ -4,7 +4,7 @@
   import { clearSession } from "../../identity/application/auth-api";
   import { buildHomeModel } from "../application/home-model";
   import { probeApi } from "../application/probe-api";
-  import UsageInsightsPanel from "../../usage-insights/presentation/UsageInsightsPanel.svelte";
+  import PlanNoticesPanel from "../../plan-notices/presentation/PlanNoticesPanel.svelte";
 
   let {
     ctx,
@@ -42,7 +42,7 @@
     </dl>
   {/if}
   {#if session}
-    <UsageInsightsPanel {ctx} {session} />
+    <PlanNoticesPanel {ctx} {session} />
   {/if}
   <dl class="card">
     <div class="row"><dt>Environment</dt><dd>{model.environment}</dd></div>

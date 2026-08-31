@@ -65,7 +65,7 @@ services:
       - bench-dd_react_python-lantern-api:/app
     networks: [bench]
     depends_on: [collector]
-    command: ["sh","-c","pip install -q watchdog >/dev/null 2>&1; watchmedo auto-restart -d src -p '*.py' -R -- python -m src.main"]
+    command: ["sh","-c","pip install -q -r requirements.txt >/dev/null 2>&1; command -v watchmedo >/dev/null 2>&1 || pip install -q watchdog; watchmedo auto-restart -d src -p '*.py' -R -- python -m src.main"]
     restart: unless-stopped
   lantern-web:
     # web — lantern (python+svelte)

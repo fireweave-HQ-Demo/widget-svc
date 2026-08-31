@@ -3,7 +3,7 @@ import re
 import time
 from typing import Optional
 
-from fireweave import EvaluationContext
+from fireweave._sdk import EvaluationContext
 
 from fireweave.fw_harness import fw_control_points
 from src.features.identity.domain.user import BenchUser

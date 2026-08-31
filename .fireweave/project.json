@@ -51,7 +51,8 @@
       "metricsClient": "manual-otlp",
       "sdk": {
         "name": "fireweave",
-        "channel": "staging"
+        "version": "2.3.0",
+        "channel": "stable"
       }
     },
     {
@@ -77,8 +78,13 @@
     "promotionEnvironment": "prod",
     "posthogProjectId": "534542",
     "environments": {
-      "dev": { "tier": "dev" },
-      "prod": { "tier": "prod", "posthogProjectId": "534542" }
+      "dev": {
+        "tier": "dev"
+      },
+      "prod": {
+        "tier": "prod",
+        "posthogProjectId": "534542"
+      }
     },
     "harnessPath": "apps/atlas-api/fireweave/fw-harness.ts",
     "harnessEntrypoint": "apps/atlas-api/src/main.ts",

@@ -8,4 +8,7 @@ stamp in the committed tree.
 
 from __future__ import annotations
 
-FW_STAMPS: list[str] = ["stmp_00MTGPIB6BUWZ8KJ0O"]
+FW_STAMPS: list[str] = [
+    "stmp_00MTGPIB6BUWZ8KJ0O",
+    "stmp_01M1B6VMQNZFDMMZ2T8E",
+]

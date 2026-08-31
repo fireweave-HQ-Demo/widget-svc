@@ -15,6 +15,9 @@ services:
       OTEL_SERVICE_NAME: atlas-api
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=dd_react_python,deployment.environment=prod
+    env_file:
+      - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/credentials/fireweave-rpd
+        required: true
     ports:
       - "0.0.0.0:18014:3000"
     volumes:
@@ -39,6 +42,9 @@ services:
       VITE_DESTINATION: datadog
       VITE_API_PORT: "18014"
       VITE_OTEL_PORT: "18018"
+    env_file:
+      - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/credentials/fireweave-rpd
+        required: true
     ports:
       - "0.0.0.0:18015:5173"
     volumes:
@@ -59,13 +65,16 @@ services:
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=dd_react_python,deployment.environment=prod
       PYTHONPATH: /app
+    env_file:
+      - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/credentials/fireweave-rpd
+        required: true
     ports:
       - "0.0.0.0:18016:3000"
     volumes:
       - bench-dd_react_python-lantern-api:/app
     networks: [bench]
     depends_on: [collector]
-    command: ["python","-m","src.main"]
+    command: ["sh","-c","pip install -q -r requirements.txt 2>/dev/null; python -m src.main"]
     restart: unless-stopped
   lantern-web:
     # web — lantern (python+svelte)
@@ -83,6 +92,9 @@ services:
       VITE_DESTINATION: datadog
       VITE_API_PORT: "18016"
       VITE_OTEL_PORT: "18018"
+    env_file:
+      - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/credentials/fireweave-rpd
+        required: true
     ports:
       - "0.0.0.0:18017:5173"
     volumes:

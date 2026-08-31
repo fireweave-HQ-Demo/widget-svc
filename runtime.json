@@ -26,7 +26,7 @@
         "collector-otlp": 18018,
         "collector-status": 18019
       },
-      "running": false
+      "running": true
     }
   ],
   "fireweave": {
@@ -36,5 +36,5 @@
     "agentGitBaseBranch": "main",
     "agentGitBranch": "bench/dd_react_python"
   },
-  "updatedAt": "2026-08-29T06:31:29.478Z"
+  "updatedAt": "2026-08-31T04:41:21.522Z"
 }

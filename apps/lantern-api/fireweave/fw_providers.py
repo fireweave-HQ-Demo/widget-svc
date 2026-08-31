@@ -35,7 +35,7 @@ kinds of property and you need both:
 A rule targeting a property that is never registered AND never sent matches
 nobody, silently. Register the durable facts at sign-in.
 
-``pip install fireweave`` — no extra. The ``[openfeature]`` extra is GONE:
+``pip install fireweave==2.3.0`` — no extra. The ``[openfeature]`` extra is GONE:
 v1 bans an OpenFeature provider outright (spec/control-points.md "Scope of
 v1"), so the subpackage that needed it no longer exists.
 
@@ -50,7 +50,7 @@ import warnings
 from typing import Any, Mapping, Optional
 from urllib.parse import urlparse
 
-from fireweave import FireweaveClient, RegisterTargetOptions, init_fireweave
+from ._sdk import FireweaveClient, RegisterTargetOptions, init_fireweave
 
 # Set by whichever factory below ``init_fw_harness()`` calls — dev and prod
 # both go through it.

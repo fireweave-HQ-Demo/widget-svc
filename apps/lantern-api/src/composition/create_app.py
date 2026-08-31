@@ -14,6 +14,9 @@ from src.features.telemetry.infrastructure.start_otel import Telemetry
 from src.features.usage_insights.presentation.http.handle_usage_summary import (
     handle_usage_summary,
 )
+from src.features.plan_notices.presentation.http.handle_plan_notices import (
+    handle_plan_notices,
+)
 
 CORS_METHODS = "GET, POST, PUT, DELETE, OPTIONS"
 CORS_HEADERS = "content-type, authorization"
@@ -61,6 +64,11 @@ def serve(ctx: RuntimeContext, telemetry: Telemetry, port: int, html: bool, iden
             # @fireweave-controlpoint usage-insights
             if path == "/usage/summary" and method == "GET":
                 status, body = handle_usage_summary(identity, telemetry, self.headers)
+                self._respond(status, body)
+                return
+            # @fireweave-controlpoint plan-notices
+            if path == "/plan/notices" and method == "GET":
+                status, body = handle_plan_notices(identity, telemetry, self.headers)
                 self._respond(status, body)
                 return
             if method == "GET" and (path == "/" or self.path.startswith("/?")):
