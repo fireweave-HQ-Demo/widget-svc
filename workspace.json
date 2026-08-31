@@ -1,0 +1,73 @@
+{
+  "name": "dd_react_python",
+  "persistence": "ephemeral",
+  "identity": false,
+  "identityUserCount": 0,
+  "apps": [
+    {
+      "id": "atlas",
+      "kind": "pair",
+      "stack": "bun+react",
+      "services": [
+        "atlas-api",
+        "atlas-web"
+      ]
+    },
+    {
+      "id": "lantern",
+      "kind": "pair",
+      "stack": "python+svelte",
+      "services": [
+        "lantern-api",
+        "lantern-web"
+      ]
+    }
+  ],
+  "destination": "datadog",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "prod",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/dd_react_python"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18008,
+        "atlas-web": 18009,
+        "lantern-api": 18010,
+        "lantern-web": 18011,
+        "collector-otlp": 18012,
+        "collector-status": 18013
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "atlas-api": 18014,
+        "atlas-web": 18015,
+        "lantern-api": 18016,
+        "lantern-web": 18017,
+        "collector-otlp": 18018,
+        "collector-status": 18019
+      },
+      "running": true
+    }
+  ],
+  "ports": {
+    "atlas-api": 18008,
+    "atlas-web": 18009,
+    "lantern-api": 18010,
+    "lantern-web": 18011,
+    "collector-otlp": 18012,
+    "collector-status": 18013
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}
