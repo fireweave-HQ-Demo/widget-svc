@@ -15,10 +15,13 @@ services:
       OTEL_SERVICE_NAME: atlas-api
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=dd_react_python,deployment.environment=dev
+      IDENTITY_ENABLED: "true"
+      IDENTITY_SEED_PATH: /data/identity/seed.json
     ports:
       - "0.0.0.0:18008:3000"
     volumes:
       - bench-dd_react_python-atlas-api:/app
+      - ../../identity/seed.json:/data/identity/seed.json:ro
     networks: [bench]
     depends_on: [collector]
     command: ["bun","--hot","run","src/main.ts"]
@@ -34,11 +37,14 @@ services:
       OTEL_SERVICE_NAME: atlas-web
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=dd_react_python,deployment.environment=dev
+      IDENTITY_ENABLED: "true"
+      IDENTITY_SEED_PATH: /data/identity/seed.json
       VITE_SERVICE_NAME: atlas-web
       VITE_APP_ENV: dev
       VITE_DESTINATION: datadog
       VITE_API_PORT: "18008"
       VITE_OTEL_PORT: "18012"
+      VITE_IDENTITY_ENABLED: "true"
     ports:
       - "0.0.0.0:18009:5173"
     volumes:
@@ -58,11 +64,14 @@ services:
       OTEL_SERVICE_NAME: lantern-api
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=dd_react_python,deployment.environment=dev
+      IDENTITY_ENABLED: "true"
+      IDENTITY_SEED_PATH: /data/identity/seed.json
       PYTHONPATH: /app
     ports:
       - "0.0.0.0:18010:3000"
     volumes:
       - bench-dd_react_python-lantern-api:/app
+      - ../../identity/seed.json:/data/identity/seed.json:ro
     networks: [bench]
     depends_on: [collector]
     command: ["sh","-c","pip install -q -r requirements.txt >/dev/null 2>&1; command -v watchmedo >/dev/null 2>&1 || pip install -q watchdog; watchmedo auto-restart -d src -p '*.py' -R -- python -m src.main"]
@@ -78,11 +87,14 @@ services:
       OTEL_SERVICE_NAME: lantern-web
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=dd_react_python,deployment.environment=dev
+      IDENTITY_ENABLED: "true"
+      IDENTITY_SEED_PATH: /data/identity/seed.json
       VITE_SERVICE_NAME: lantern-web
       VITE_APP_ENV: dev
       VITE_DESTINATION: datadog
       VITE_API_PORT: "18010"
       VITE_OTEL_PORT: "18012"
+      VITE_IDENTITY_ENABLED: "true"
     ports:
       - "0.0.0.0:18011:5173"
     volumes:

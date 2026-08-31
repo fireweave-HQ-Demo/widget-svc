@@ -3,6 +3,8 @@ import re
 from typing import Optional
 from urllib.parse import parse_qs, urlparse
 
+from fireweave.fw_providers import register_fw_target
+
 
 def _json(data: dict, status: int = 200) -> tuple[int, bytes]:
     return status, (json.dumps(data) + "\n").encode()
@@ -49,6 +51,10 @@ def handle_auth_session(store, method: str, headers, body: bytes) -> tuple[int, 
         logged = store.login(user_id)
         if not logged:
             return _json({"error": "unknown user"}, 404)
+        register_fw_target(
+            user_id,
+            properties=logged.get("evaluationContext") or {},
+        )
         return _json(
             {
                 "sessionToken": logged["token"],

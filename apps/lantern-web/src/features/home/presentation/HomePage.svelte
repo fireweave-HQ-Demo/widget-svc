@@ -5,6 +5,7 @@
   import { buildHomeModel } from "../application/home-model";
   import { probeApi } from "../application/probe-api";
   import PlanNoticesPanel from "../../plan-notices/presentation/PlanNoticesPanel.svelte";
+  import ActivityFeedPanel from "../../activity-feed/presentation/ActivityFeedPanel.svelte";
 
   let {
     ctx,
@@ -43,6 +44,7 @@
   {/if}
   {#if session}
     <PlanNoticesPanel {ctx} {session} />
+    <ActivityFeedPanel {ctx} {session} />
   {/if}
   <dl class="card">
     <div class="row"><dt>Environment</dt><dd>{model.environment}</dd></div>

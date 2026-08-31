@@ -10,6 +10,7 @@ import {
 } from "../features/identity/presentation/http/handle-auth";
 import { handleUsageSummary } from "../features/usage-insights/presentation/http/handle-usage-summary";
 import { handlePlanNotices } from "../features/plan-notices/presentation/http/handle-plan-notices";
+import { handleActivityFeed } from "../features/activity-feed/presentation/http/handle-activity-feed";
 
 const CORS: HeadersInit = {
   "access-control-allow-origin": "*",
@@ -54,6 +55,10 @@ export function createFetch(
       // @fireweave-controlpoint plan-notices
       if (path === "/plan/notices" && req.method === "GET") {
         return handlePlanNotices(ctx, telemetry, identity, req);
+      }
+      // @fireweave-controlpoint activity-feed
+      if (path === "/activity/feed" && req.method === "GET") {
+        return handleActivityFeed(ctx, telemetry, identity, req);
       }
       return new Response("not found\n", { status: 404 });
     });

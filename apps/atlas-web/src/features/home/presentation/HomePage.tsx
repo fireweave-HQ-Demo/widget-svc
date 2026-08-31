@@ -5,6 +5,7 @@ import { clearSession } from "../../identity/application/auth-api";
 import { buildHomeModel } from "../application/home-model";
 import { probeApi } from "../application/probe-api";
 import { PlanNoticesPanel } from "../../plan-notices/presentation/PlanNoticesPanel";
+import { ActivityFeedPanel } from "../../activity-feed/presentation/ActivityFeedPanel";
 
 export function HomePage({
   ctx,
@@ -30,6 +31,7 @@ export function HomePage({
         </dl>
       ) : null}
       {session ? <PlanNoticesPanel ctx={ctx} session={session} /> : null}
+      {session ? <ActivityFeedPanel ctx={ctx} session={session} /> : null}
       <dl className="card">
         <div className="row"><dt>Environment</dt><dd>{model.environment}</dd></div>
         <div className="row"><dt>Destination</dt><dd>{model.destination}</dd></div>

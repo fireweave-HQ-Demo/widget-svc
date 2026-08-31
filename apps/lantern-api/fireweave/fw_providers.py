@@ -193,7 +193,7 @@ def make_dev_provider() -> FireweaveClient:
     global _fw_client
     _fw_client = init_fireweave(
         mode="local",
-        local={"control_points": {"usage-insights": True}},
+        local={"control_points": {"usage-insights": True, "plan-notices": True, "activity-feed": True}},
     )
     return _fw_client
 

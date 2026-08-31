@@ -1,0 +1,24 @@
+{
+  "users": [
+    {"id": "user_1", "email": "ada@bench.test", "name": "Ada Bench", "org": "bench-lab", "plan": "free", "country": "US"},
+    {"id": "user_2", "email": "ben@bench.test", "name": "Ben Bench", "org": "bench-lab", "plan": "pro", "country": "US"},
+    {"id": "user_3", "email": "cara@bench.test", "name": "Cara Bench", "org": "bench-lab", "plan": "enterprise", "country": "GB"},
+    {"id": "user_4", "email": "dan@bench.test", "name": "Dan Bench", "org": "bench-lab", "plan": "free", "country": "US"},
+    {"id": "user_5", "email": "eli@bench.test", "name": "Eli Bench", "org": "bench-lab", "plan": "pro", "country": "CA"},
+    {"id": "user_6", "email": "fay@bench.test", "name": "Fay Bench", "org": "bench-lab", "plan": "free", "country": "US"},
+    {"id": "user_7", "email": "gus@bench.test", "name": "Gus Bench", "org": "bench-lab", "plan": "pro", "country": "US"},
+    {"id": "user_8", "email": "hal@bench.test", "name": "Hal Bench", "org": "bench-lab", "plan": "enterprise", "country": "DE"},
+    {"id": "user_9", "email": "ivy@bench.test", "name": "Ivy Bench", "org": "bench-lab", "plan": "free", "country": "US"},
+    {"id": "user_10", "email": "jay@bench.test", "name": "Jay Bench", "org": "bench-lab", "plan": "pro", "country": "US"},
+    {"id": "user_11", "email": "kim@bench.test", "name": "Kim Bench", "org": "bench-lab", "plan": "free", "country": "GB"},
+    {"id": "user_12", "email": "leo@bench.test", "name": "Leo Bench", "org": "bench-lab", "plan": "pro", "country": "US"},
+    {"id": "user_13", "email": "mia@bench.test", "name": "Mia Bench", "org": "bench-lab", "plan": "enterprise", "country": "US"},
+    {"id": "user_14", "email": "noa@bench.test", "name": "Noa Bench", "org": "bench-lab", "plan": "free", "country": "FR"},
+    {"id": "user_15", "email": "ora@bench.test", "name": "Ora Bench", "org": "bench-lab", "plan": "pro", "country": "US"},
+    {"id": "user_16", "email": "pat@bench.test", "name": "Pat Bench", "org": "bench-lab", "plan": "free", "country": "US"},
+    {"id": "user_17", "email": "quinn@bench.test", "name": "Quinn Bench", "org": "bench-lab", "plan": "pro", "country": "US"},
+    {"id": "user_18", "email": "ray@bench.test", "name": "Ray Bench", "org": "bench-lab", "plan": "enterprise", "country": "US"},
+    {"id": "user_19", "email": "sam@bench.test", "name": "Sam Bench", "org": "bench-lab", "plan": "free", "country": "US"},
+    {"id": "user_20", "email": "tia@bench.test", "name": "Tia Bench", "org": "bench-lab", "plan": "pro", "country": "US"}
+  ]
+}

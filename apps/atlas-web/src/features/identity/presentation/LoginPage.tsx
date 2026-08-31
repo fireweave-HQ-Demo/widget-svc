@@ -6,6 +6,7 @@ import {
   loginAs,
   restoreSession,
 } from "../application/auth-api";
+import { syncFireweaveUser } from "../../../../fireweave/fw-providers";
 
 export function LoginPage({
   ctx,
@@ -46,6 +47,7 @@ export function LoginPage({
                 setError("");
                 try {
                   const session = await loginAs(ctx.apiBase, u.id);
+                  void syncFireweaveUser(session.user.id, session.evaluationContext.properties);
                   onLoggedIn(session);
                 } catch (e) {
                   setError(e instanceof Error ? e.message : String(e));

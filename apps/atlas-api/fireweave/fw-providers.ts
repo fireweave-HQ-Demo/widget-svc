@@ -201,7 +201,7 @@ export async function makeDevProvider(): Promise<FireweaveClient> {
   await loadInstanceId();
   fwClient = await initFireweave({
     mode: 'local',
-    local: { controlPoints: { 'usage-insights': true } },
+    local: { controlPoints: { 'usage-insights': true, 'plan-notices': true, 'activity-feed': true } },
   });
   return fwClient;
 }

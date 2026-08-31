@@ -15,6 +15,8 @@ services:
       OTEL_SERVICE_NAME: atlas-api
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=dd_react_python,deployment.environment=prod
+      IDENTITY_ENABLED: "true"
+      IDENTITY_SEED_PATH: /data/identity/seed.json
     env_file:
       - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/credentials/fireweave-rpd
         required: true
@@ -22,6 +24,7 @@ services:
       - "0.0.0.0:18014:3000"
     volumes:
       - bench-dd_react_python-atlas-api:/app
+      - ../../identity/seed.json:/data/identity/seed.json:ro
     networks: [bench]
     depends_on: [collector]
     command: ["bun","run","start"]
@@ -37,11 +40,14 @@ services:
       OTEL_SERVICE_NAME: atlas-web
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=dd_react_python,deployment.environment=prod
+      IDENTITY_ENABLED: "true"
+      IDENTITY_SEED_PATH: /data/identity/seed.json
       VITE_SERVICE_NAME: atlas-web
       VITE_APP_ENV: prod
       VITE_DESTINATION: datadog
       VITE_API_PORT: "18014"
       VITE_OTEL_PORT: "18018"
+      VITE_IDENTITY_ENABLED: "true"
     env_file:
       - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/credentials/fireweave-rpd
         required: true
@@ -64,6 +70,8 @@ services:
       OTEL_SERVICE_NAME: lantern-api
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=dd_react_python,deployment.environment=prod
+      IDENTITY_ENABLED: "true"
+      IDENTITY_SEED_PATH: /data/identity/seed.json
       PYTHONPATH: /app
     env_file:
       - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/credentials/fireweave-rpd
@@ -72,6 +80,7 @@ services:
       - "0.0.0.0:18016:3000"
     volumes:
       - bench-dd_react_python-lantern-api:/app
+      - ../../identity/seed.json:/data/identity/seed.json:ro
     networks: [bench]
     depends_on: [collector]
     command: ["sh","-c","pip install -q -r requirements.txt 2>/dev/null; python -m src.main"]
@@ -87,11 +96,14 @@ services:
       OTEL_SERVICE_NAME: lantern-web
       OTEL_EXPORTER_OTLP_ENDPOINT: http://collector:4318
       OTEL_RESOURCE_ATTRIBUTES: service.namespace=dd_react_python,deployment.environment=prod
+      IDENTITY_ENABLED: "true"
+      IDENTITY_SEED_PATH: /data/identity/seed.json
       VITE_SERVICE_NAME: lantern-web
       VITE_APP_ENV: prod
       VITE_DESTINATION: datadog
       VITE_API_PORT: "18016"
       VITE_OTEL_PORT: "18018"
+      VITE_IDENTITY_ENABLED: "true"
     env_file:
       - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/credentials/fireweave-rpd
         required: true
