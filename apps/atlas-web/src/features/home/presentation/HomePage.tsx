@@ -4,6 +4,7 @@ import type { AuthSession } from "../../identity/domain/session";
 import { clearSession } from "../../identity/application/auth-api";
 import { buildHomeModel } from "../application/home-model";
 import { probeApi } from "../application/probe-api";
+import { UsageInsightsPanel } from "../../usage-insights/presentation/UsageInsightsPanel";
 
 export function HomePage({
   ctx,
@@ -28,6 +29,7 @@ export function HomePage({
           <div className="row"><dt>Org / plan</dt><dd>{session.user.org} · {session.user.plan}</dd></div>
         </dl>
       ) : null}
+      {session ? <UsageInsightsPanel ctx={ctx} session={session} /> : null}
       <dl className="card">
         <div className="row"><dt>Environment</dt><dd>{model.environment}</dd></div>
         <div className="row"><dt>Destination</dt><dd>{model.destination}</dd></div>

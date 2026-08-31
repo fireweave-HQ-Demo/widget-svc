@@ -19,15 +19,30 @@ async function postOtlp(endpoint: string, path: string, body: unknown): Promise<
   });
 }
 
+function metricAttributes(attrs: Record<string, string> = {}) {
+  return Object.entries(attrs).map(([key, value]) => ({
+    key,
+    value: { stringValue: value },
+  }));
+}
+
 /** Named counter — FireWeave wrap points call `increment("feature.*.adopted")`. */
 export async function increment(
   ctx: RuntimeContext,
   name: string,
   value = 1,
+  attrs: Record<string, string> = {},
 ): Promise<void> {
   const endpoint = ctx.exporterEndpoint.replace(/\/$/, "");
   if (!endpoint) return;
   const now = nanoNow();
+  const dataPoint: Record<string, unknown> = {
+    asInt: String(value),
+    startTimeUnixNano: now,
+    timeUnixNano: now,
+  };
+  const attributes = metricAttributes(attrs);
+  if (attributes.length) dataPoint.attributes = attributes;
   try {
     await postOtlp(endpoint, "/v1/metrics", {
       resourceMetrics: [
@@ -41,13 +56,7 @@ export async function increment(
                   sum: {
                     aggregationTemporality: 2,
                     isMonotonic: true,
-                    dataPoints: [
-                      {
-                        asInt: String(value),
-                        startTimeUnixNano: now,
-                        timeUnixNano: now,
-                      },
-                    ],
+                    dataPoints: [dataPoint],
                   },
                 },
               ],

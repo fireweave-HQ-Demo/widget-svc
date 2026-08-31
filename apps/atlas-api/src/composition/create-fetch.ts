@@ -8,6 +8,7 @@ import {
   handleAuthSession,
   handleAuthUsers,
 } from "../features/identity/presentation/http/handle-auth";
+import { handleUsageSummary } from "../features/usage-insights/presentation/http/handle-usage-summary";
 
 const CORS: HeadersInit = {
   "access-control-allow-origin": "*",
@@ -44,6 +45,10 @@ export function createFetch(
       }
       if (path === "/auth/session") {
         return handleAuthSession(identity, req);
+      }
+      // @fireweave-controlpoint usage-insights
+      if (path === "/usage/summary" && req.method === "GET") {
+        return handleUsageSummary(ctx, telemetry, identity, req);
       }
       return new Response("not found\n", { status: 404 });
     });

@@ -34,3 +34,5 @@ apps/bench-copied
 template-mirror/bench-copied
 tooling/marketplace/
 .envrc
+.fireweave/.lock
+.fireweave/.queue/

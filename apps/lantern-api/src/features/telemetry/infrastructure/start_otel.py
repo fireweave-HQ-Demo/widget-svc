@@ -39,8 +39,16 @@ class Telemetry:
         except Exception:
             self.exporter_status = "degraded"
 
-    def increment(self, name: str, value: int = 1) -> None:
+    def increment(self, name: str, value: int = 1, attrs: dict | None = None) -> None:
         now = str(time.time_ns())
+        attr_list = [{"key": k, "value": {"stringValue": str(v)}} for k, v in (attrs or {}).items()]
+        data_point: dict = {
+            "asInt": str(value),
+            "startTimeUnixNano": now,
+            "timeUnixNano": now,
+        }
+        if attr_list:
+            data_point["attributes"] = attr_list
         payload = {
             "resourceMetrics": [{
                 "resource": {"attributes": [{"key": "service.name", "value": {"stringValue": self.ctx.service}}]},
@@ -49,11 +57,7 @@ class Telemetry:
                     "sum": {
                         "aggregationTemporality": 2,
                         "isMonotonic": True,
-                        "dataPoints": [{
-                            "asInt": str(value),
-                            "startTimeUnixNano": now,
-                            "timeUnixNano": now,
-                        }],
+                        "dataPoints": [data_point],
                     },
                 }]}],
             }]
@@ -63,8 +67,16 @@ class Telemetry:
         except Exception:
             self.exporter_status = "degraded"
 
-    def record(self, name: str, value: float) -> None:
+    def record(self, name: str, value: float, attrs: dict | None = None) -> None:
         now = str(time.time_ns())
+        attr_list = [{"key": k, "value": {"stringValue": str(v)}} for k, v in (attrs or {}).items()]
+        data_point: dict = {
+            "count": "1",
+            "sum": value,
+            "timeUnixNano": now,
+        }
+        if attr_list:
+            data_point["attributes"] = attr_list
         payload = {
             "resourceMetrics": [{
                 "resource": {"attributes": [{"key": "service.name", "value": {"stringValue": self.ctx.service}}]},
@@ -72,11 +84,7 @@ class Telemetry:
                     "name": name,
                     "histogram": {
                         "aggregationTemporality": 2,
-                        "dataPoints": [{
-                            "count": "1",
-                            "sum": value,
-                            "timeUnixNano": now,
-                        }],
+                        "dataPoints": [data_point],
                     },
                 }]}],
             }]

@@ -11,6 +11,9 @@ from src.features.identity.presentation.http.handle_auth import (
     handle_auth_users,
 )
 from src.features.telemetry.infrastructure.start_otel import Telemetry
+from src.features.usage_insights.presentation.http.handle_usage_summary import (
+    handle_usage_summary,
+)
 
 CORS_METHODS = "GET, POST, PUT, DELETE, OPTIONS"
 CORS_HEADERS = "content-type, authorization"
@@ -53,6 +56,11 @@ def serve(ctx: RuntimeContext, telemetry: Telemetry, port: int, html: bool, iden
                 length = int(self.headers.get("Content-Length", 0))
                 raw = self.rfile.read(length) if length else b""
                 status, body = handle_auth_session(identity, method, self.headers, raw)
+                self._respond(status, body)
+                return
+            # @fireweave-controlpoint usage-insights
+            if path == "/usage/summary" and method == "GET":
+                status, body = handle_usage_summary(identity, telemetry, self.headers)
                 self._respond(status, body)
                 return
             if method == "GET" and (path == "/" or self.path.startswith("/?")):

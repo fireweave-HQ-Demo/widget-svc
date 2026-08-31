@@ -4,6 +4,7 @@
   import { clearSession } from "../../identity/application/auth-api";
   import { buildHomeModel } from "../application/home-model";
   import { probeApi } from "../application/probe-api";
+  import UsageInsightsPanel from "../../usage-insights/presentation/UsageInsightsPanel.svelte";
 
   let {
     ctx,
@@ -39,6 +40,9 @@
       <div class="row"><dt>Evaluation</dt><dd>{session.evaluationContext.distinctId}</dd></div>
       <div class="row"><dt>Org / plan</dt><dd>{session.user.org} · {session.user.plan}</dd></div>
     </dl>
+  {/if}
+  {#if session}
+    <UsageInsightsPanel {ctx} {session} />
   {/if}
   <dl class="card">
     <div class="row"><dt>Environment</dt><dd>{model.environment}</dd></div>
