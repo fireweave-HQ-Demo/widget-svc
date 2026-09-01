@@ -1,0 +1,14 @@
+{
+  "enabledPlugins": {
+    "fireweave@fireweave": true
+  },
+  "extraKnownMarketplaces": {
+    "fireweave": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/FireWeave-HQ/plugins-marketplace-staging.git"
+      },
+      "autoUpdate": true
+    }
+  }
+}
