@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { RuntimeContext } from "../../../core/runtime-context";
 import type { AuthSession } from "../../identity/domain/session";
 import { clearSession } from "../../identity/application/auth-api";
 import { buildHomeModel } from "../application/home-model";
 import { probeApi } from "../application/probe-api";
+import { applyThemeTokens, fetchTheme } from "../application/fetch-theme";
+import { fw } from "../../../fireweave/fw-harness";
+import { increment } from "../../telemetry/infrastructure/start-browser-otel";
 
 export function HomePage({
   ctx,
@@ -15,6 +18,28 @@ export function HomePage({
   const model = buildHomeModel(ctx);
   const [probe, setProbe] = useState("Idle — probe the pair API.");
   const [klass, setKlass] = useState("");
+  const [themeName, setThemeName] = useState<string | null>(null);
+
+  useEffect(() => {
+    const targetingKey = session?.evaluationContext.distinctId;
+    // @fireweave-controlpoint random-theme
+    const enabled = fw.controlPoints.getBooleanValue(
+      "random-theme",
+      false,
+      targetingKey ? { targetingKey } : undefined,
+    );
+    if (!enabled) return;
+    void (async () => {
+      const result = await fetchTheme(ctx.apiBase, session?.sessionToken);
+      if (!result.ok) {
+        await increment(ctx, "random-theme.fetch_failed");
+        return;
+      }
+      applyThemeTokens(result.payload.theme);
+      setThemeName(result.payload.theme.name);
+      await increment(ctx, "random-theme.applied");
+    })();
+  }, [ctx, session]);
 
   return (
     <main className="shell">
@@ -34,6 +59,9 @@ export function HomePage({
         <div className="row"><dt>Framework</dt><dd>{model.framework}</dd></div>
         <div className="row"><dt>API</dt><dd>{model.apiBase}</dd></div>
         <div className="row"><dt>Browser OTLP</dt><dd>{model.otlp}</dd></div>
+        {themeName ? (
+          <div className="row"><dt>Theme</dt><dd>{themeName}</dd></div>
+        ) : null}
       </dl>
       <div className="actions">
         <button

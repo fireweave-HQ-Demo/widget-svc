@@ -8,6 +8,9 @@ services:
     # api — atlas (bun+react)
     image: oven/bun:1.2-alpine
     working_dir: /app
+    env_file:
+      - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/workspaces/stg_oodle_react_py/.env
+        required: false
     environment:
       APP_ENV: prod
       PORT: "3000"
@@ -27,6 +30,9 @@ services:
     # web — atlas (bun+react)
     image: oven/bun:1.2-alpine
     working_dir: /app
+    env_file:
+      - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/workspaces/stg_oodle_react_py/.env
+        required: false
     environment:
       APP_ENV: prod
       PORT: "5173"
@@ -51,6 +57,9 @@ services:
     # api — lantern (python+svelte)
     image: python:3.12-alpine
     working_dir: /app
+    env_file:
+      - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/workspaces/stg_oodle_react_py/.env
+        required: false
     environment:
       APP_ENV: prod
       PORT: "3000"
@@ -65,12 +74,15 @@ services:
       - bench-stg_oodle_react_py-lantern-api:/app
     networks: [bench]
     depends_on: [collector]
-    command: ["python","-m","src.main"]
+    command: ["sh","-c","pip install -q -r requirements.txt && python -m src.main"]
     restart: unless-stopped
   lantern-web:
     # web — lantern (python+svelte)
     image: node:22-alpine
     working_dir: /app
+    env_file:
+      - path: /Users/kalyanchowdary/Desktop/code/work/test-bench/bench/workspaces/stg_oodle_react_py/.env
+        required: false
     environment:
       APP_ENV: prod
       PORT: "5173"

@@ -1,9 +1,13 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import type { RuntimeContext } from "../../../core/runtime-context";
   import type { AuthSession } from "../../identity/domain/session";
   import { clearSession } from "../../identity/application/auth-api";
   import { buildHomeModel } from "../application/home-model";
   import { probeApi } from "../application/probe-api";
+  import { applyThemeTokens, fetchTheme } from "../application/fetch-theme";
+  import { fw } from "../../../fireweave/fw-harness";
+  import { increment } from "../../telemetry/infrastructure/start-browser-otel";
 
   let {
     ctx,
@@ -16,6 +20,28 @@
   const model = $derived(buildHomeModel(ctx));
   let probe = $state("Idle — probe the pair API.");
   let klass = $state("");
+  let themeName = $state<string | null>(null);
+
+  onMount(() => {
+    const targetingKey = session?.evaluationContext.distinctId;
+    // @fireweave-controlpoint random-theme
+    const enabled = fw.controlPoints.getBooleanValue(
+      "random-theme",
+      false,
+      targetingKey ? { targetingKey } : undefined,
+    );
+    if (!enabled) return;
+    void (async () => {
+      const result = await fetchTheme(ctx.apiBase, session?.sessionToken);
+      if (!result.ok) {
+        await increment(ctx, "random-theme.fetch_failed");
+        return;
+      }
+      applyThemeTokens(result.payload.theme);
+      themeName = result.payload.theme.name;
+      await increment(ctx, "random-theme.applied");
+    })();
+  });
 
   async function onProbe() {
     const result = await probeApi(ctx.apiBase);
@@ -46,6 +72,9 @@
     <div class="row"><dt>Framework</dt><dd>{model.framework}</dd></div>
     <div class="row"><dt>API</dt><dd>{model.apiBase}</dd></div>
     <div class="row"><dt>Browser OTLP</dt><dd>{model.otlp}</dd></div>
+    {#if themeName}
+      <div class="row"><dt>Theme</dt><dd>{themeName}</dd></div>
+    {/if}
   </dl>
   <div class="actions">
     <button type="button" onclick={onProbe}>Probe API /health</button>

@@ -1,4 +1,5 @@
 import type { IdentityStore } from "../../application/ports/identity-store";
+import { registerFwTarget } from "../../../../fireweave/fw-providers";
 
 function json(data: unknown, status = 200): Response {
   return new Response(JSON.stringify(data) + "\n", {
@@ -45,6 +46,16 @@ export async function handleAuthSession(
     if (!userId) return json({ error: "userId required" }, 400);
     const logged = store.login(userId);
     if (!logged) return json({ error: "unknown user" }, 404);
+    // Cohort identity — always-on, never flag-gated (INIT-S8).
+    void registerFwTarget(userId, {
+      properties: {
+        email: logged.user.email,
+        name: logged.user.name,
+        org: logged.user.org,
+        plan: logged.user.plan,
+        country: logged.user.country,
+      },
+    });
     return json({
       sessionToken: logged.token,
       user: logged.user,

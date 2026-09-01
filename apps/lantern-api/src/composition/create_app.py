@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 from src.core.runtime_context import RuntimeContext
 from src.features.health.application.get_health import get_health
 from src.features.home.application.get_home import home_body
+from src.features.home.presentation.http.handle_theme import handle_theme
 from src.features.identity.presentation.http.handle_auth import (
     handle_auth_config,
     handle_auth_session,
@@ -40,6 +41,19 @@ def serve(ctx: RuntimeContext, telemetry: Telemetry, port: int, html: bool, iden
             if path == "/health":
                 body = json.dumps(get_health(ctx, telemetry.exporter_status)).encode()
                 self._respond(200, body)
+                return
+            if path == "/theme" and method == "GET":
+                auth = self.headers.get("Authorization") or self.headers.get("authorization") or ""
+                token = None
+                if auth.lower().startswith("bearer "):
+                    token = auth.split(" ", 1)[1].strip()
+                sess = identity.session(token)
+                user_id = None
+                if sess:
+                    user = sess.get("user") if isinstance(sess, dict) else None
+                    user_id = user.get("id") if isinstance(user, dict) else None
+                status, body = handle_theme(ctx, telemetry, user_id)
+                self._respond(status, body)
                 return
             if path == "/auth/config" and method == "GET":
                 status, body = handle_auth_config(identity)
