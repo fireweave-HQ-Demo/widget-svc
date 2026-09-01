@@ -1,0 +1,73 @@
+{
+  "name": "stg_oodle_react_py",
+  "persistence": "ephemeral",
+  "identity": false,
+  "identityUserCount": 0,
+  "apps": [
+    {
+      "id": "atlas",
+      "kind": "pair",
+      "stack": "bun+react",
+      "services": [
+        "atlas-api",
+        "atlas-web"
+      ]
+    },
+    {
+      "id": "lantern",
+      "kind": "pair",
+      "stack": "python+svelte",
+      "services": [
+        "lantern-api",
+        "lantern-web"
+      ]
+    }
+  ],
+  "destination": "oodle",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "staging",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/stg_oodle_react_py"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18004,
+        "atlas-web": 18005,
+        "lantern-api": 18006,
+        "lantern-web": 18007,
+        "collector-otlp": 18028,
+        "collector-status": 18039
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "atlas-api": 18040,
+        "atlas-web": 18041,
+        "lantern-api": 18042,
+        "lantern-web": 18043,
+        "collector-otlp": 18044,
+        "collector-status": 18045
+      },
+      "running": false
+    }
+  ],
+  "ports": {
+    "atlas-api": 18004,
+    "atlas-web": 18005,
+    "lantern-api": 18006,
+    "lantern-web": 18007,
+    "collector-otlp": 18028,
+    "collector-status": 18039
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}

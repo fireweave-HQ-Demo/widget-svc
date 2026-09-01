@@ -1,0 +1,40 @@
+{
+  "destination": "oodle",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18004,
+        "atlas-web": 18005,
+        "lantern-api": 18006,
+        "lantern-web": 18007,
+        "collector-otlp": 18028,
+        "collector-status": 18039
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "atlas-api": 18040,
+        "atlas-web": 18041,
+        "lantern-api": 18042,
+        "lantern-web": 18043,
+        "collector-otlp": 18044,
+        "collector-status": 18045
+      },
+      "running": false
+    }
+  ],
+  "fireweave": {
+    "instance": "staging",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/stg_oodle_react_py"
+  },
+  "updatedAt": "2026-09-01T08:33:38.873Z"
+}
