@@ -1,0 +1,40 @@
+{
+  "destination": "oodle",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18028,
+        "atlas-web": 18029,
+        "lantern-api": 18030,
+        "lantern-web": 18031,
+        "collector-otlp": 18032,
+        "collector-status": 18033
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "atlas-api": 18034,
+        "atlas-web": 18035,
+        "lantern-api": 18036,
+        "lantern-web": 18037,
+        "collector-otlp": 18038,
+        "collector-status": 18039
+      },
+      "running": false
+    }
+  ],
+  "fireweave": {
+    "instance": "prod",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/prod_oodle_bench"
+  },
+  "updatedAt": "2026-09-01T18:37:23.087Z"
+}

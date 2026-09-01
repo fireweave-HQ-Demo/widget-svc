@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "prod_oodle_bench",
+      "path": "."
+    },
+    {
+      "name": "apps",
+      "path": "apps"
+    }
+  ]
+}
