@@ -1,0 +1,36 @@
+{
+  "destination": "datadog",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18046,
+        "atlas-web": 18047,
+        "collector-otlp": 18048,
+        "collector-status": 18049
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "atlas-api": 18050,
+        "atlas-web": 18051,
+        "collector-otlp": 18052,
+        "collector-status": 18053
+      },
+      "running": false
+    }
+  ],
+  "fireweave": {
+    "instance": "staging",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/stg_dd_react_ts"
+  },
+  "updatedAt": "2026-09-01T08:32:30.091Z"
+}

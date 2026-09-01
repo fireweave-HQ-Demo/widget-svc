@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "stg_dd_react_ts",
+      "path": "."
+    },
+    {
+      "name": "apps",
+      "path": "apps"
+    }
+  ]
+}

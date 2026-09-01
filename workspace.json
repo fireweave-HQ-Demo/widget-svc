@@ -1,0 +1,58 @@
+{
+  "name": "stg_dd_react_ts",
+  "persistence": "ephemeral",
+  "identity": false,
+  "identityUserCount": 0,
+  "apps": [
+    {
+      "id": "atlas",
+      "kind": "pair",
+      "stack": "bun+react",
+      "services": [
+        "atlas-api",
+        "atlas-web"
+      ]
+    }
+  ],
+  "destination": "datadog",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "staging",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/stg_dd_react_ts"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18046,
+        "atlas-web": 18047,
+        "collector-otlp": 18048,
+        "collector-status": 18049
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "atlas-api": 18050,
+        "atlas-web": 18051,
+        "collector-otlp": 18052,
+        "collector-status": 18053
+      },
+      "running": false
+    }
+  ],
+  "ports": {
+    "atlas-api": 18046,
+    "atlas-web": 18047,
+    "collector-otlp": 18048,
+    "collector-status": 18049
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}
