@@ -1,0 +1,5 @@
+{
+  "service": "lantern-web",
+  "environment": "dev",
+  "stack": "python+svelte"
+}
