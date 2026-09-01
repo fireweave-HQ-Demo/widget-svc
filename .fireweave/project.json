@@ -17,7 +17,8 @@
       "surface": "ts-server",
       "surfaceId": "sfc_01M1ETGS8BX6FBNPVWVZAAXZ0W",
       "path": "apps/atlas-api/src/fireweave/fw-harness.ts",
-      "entrypoint": "src/main.ts",
+      "entrypoint": "apps/atlas-api/src/main.ts",
+      "harnessEntrypoint": "apps/atlas-api/src/main.ts",
       "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
       "trackerPath": "apps/atlas-api/src/fireweave/fw-tracker.ts",
       "metricsClient": "opentelemetry"
@@ -26,7 +27,7 @@
       "surface": "web",
       "surfaceId": "sfc_01M1ETGS8BX6FBNPVWVZAAXZ0X",
       "path": "apps/atlas-web/src/fireweave/fw-harness.ts",
-      "entrypoint": "src/main.tsx",
+      "entrypoint": "apps/atlas-web/src/main.tsx",
       "rolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
       "trackerPath": "apps/atlas-web/src/fireweave/fw-tracker.ts",
       "metricsClient": "browser-otlp"
@@ -35,7 +36,7 @@
       "surface": "python",
       "surfaceId": "sfc_01M1ETGS8BX6FBNPVWVZAAXZ0Y",
       "path": "apps/lantern-api/src/fireweave/fw_harness.py",
-      "entrypoint": "src/main.py",
+      "entrypoint": "apps/lantern-api/src/main.py",
       "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
       "trackerPath": "apps/lantern-api/src/fireweave/fw_tracker.py",
       "metricsClient": "bench-telemetry"
@@ -44,7 +45,7 @@
       "surface": "web",
       "surfaceId": "sfc_01M1ETGS8BX6FBNPVWVZAAXZ0Z",
       "path": "apps/lantern-web/src/fireweave/fw-harness.ts",
-      "entrypoint": "src/main.ts",
+      "entrypoint": "apps/lantern-web/src/main.ts",
       "rolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
       "trackerPath": "apps/lantern-web/src/fireweave/fw-tracker.ts",
       "metricsClient": "browser-otlp"
@@ -58,8 +59,13 @@
     "promotionEnvironment": "prod",
     "posthogProjectId": "534547",
     "environments": {
-      "dev": { "tier": "dev" },
-      "prod": { "tier": "prod", "posthogProjectId": "534547" }
+      "dev": {
+        "tier": "dev"
+      },
+      "prod": {
+        "tier": "prod",
+        "posthogProjectId": "534547"
+      }
     },
     "harnessEntrypoint": "apps/atlas-api/src/main.ts",
     "harnessPath": "apps/atlas-api/src/fireweave/fw-harness.ts",
