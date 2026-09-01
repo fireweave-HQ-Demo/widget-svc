@@ -4,6 +4,7 @@ import type { IdentityStore } from "../features/identity/application/ports/ident
 import { handleHealth } from "../features/health/presentation/http/handle-health";
 import { handleHome } from "../features/home/presentation/http/handle-home";
 import { handleProbeMetrics } from "../features/home/presentation/http/handle-probe-metrics";
+import { handleProbeMetricTypes } from "../features/home/presentation/http/handle-probe-metric-types";
 import {
   handleAuthConfig,
   handleAuthSession,
@@ -41,6 +42,10 @@ export function createFetch(
       if (path === "/probe/metrics") {
         // @fireweave-flag home-probe-metrics
         return handleProbeMetrics(ctx, telemetry);
+      }
+      if (path === "/probe/metric-types") {
+        // @fireweave-flag metric-types-probe
+        return handleProbeMetricTypes(ctx, telemetry);
       }
       if (path === "/") return handleHome(ctx);
       if (path === "/auth/config") return handleAuthConfig(identity);

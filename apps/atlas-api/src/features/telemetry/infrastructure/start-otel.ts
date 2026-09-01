@@ -1,5 +1,14 @@
 import { logs, SeverityNumber } from "@opentelemetry/api-logs";
-import { metrics, trace, SpanStatusCode, type Counter, type Histogram, type Tracer } from "@opentelemetry/api";
+import {
+  metrics,
+  trace,
+  SpanStatusCode,
+  type Counter,
+  type Histogram,
+  type Tracer,
+  type UpDownCounter,
+  type Gauge,
+} from "@opentelemetry/api";
 import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
 import { OTLPLogExporter } from "@opentelemetry/exporter-logs-otlp-http";
 import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
@@ -78,6 +87,8 @@ export function startOtel(ctx: RuntimeContext): Telemetry {
   const meter = meterProvider.getMeter(ctx.service, "0.1.0");
   const counters = new Map<string, Counter>();
   const histograms = new Map<string, Histogram>();
+  const gauges = new Map<string, Gauge>();
+  const upDownCounters = new Map<string, UpDownCounter>();
 
   const telemetry: Telemetry = {
     get exporterStatus() {
@@ -106,6 +117,74 @@ export function startOtel(ctx: RuntimeContext): Telemetry {
         histograms.set(name, histogram);
       }
       histogram.record(value, attributes);
+    },
+    setGauge(name, value, attributes = {}) {
+      let gauge = gauges.get(name);
+      if (!gauge) {
+        gauge = meter.createGauge(name);
+        gauges.set(name, gauge);
+      }
+      gauge.record(value, attributes);
+    },
+    addUpDown(name, delta, attributes = {}) {
+      let upDown = upDownCounters.get(name);
+      if (!upDown) {
+        upDown = meter.createUpDownCounter(name);
+        upDownCounters.set(name, upDown);
+      }
+      upDown.add(delta, attributes);
+    },
+    async emitExponentialHistogram(name, value, attributes = {}) {
+      const now = String(Date.now() * 1e6);
+      const attrList = Object.entries(attributes).map(([key, val]) => ({
+        key,
+        value: { stringValue: val },
+      }));
+      const body = {
+        resourceMetrics: [
+          {
+            resource: {
+              attributes: [
+                { key: ATTR_SERVICE_NAME, value: { stringValue: ctx.service } },
+                {
+                  key: ATTR_DEPLOYMENT_ENVIRONMENT_NAME,
+                  value: { stringValue: ctx.environment },
+                },
+              ],
+            },
+            scopeMetrics: [
+              {
+                metrics: [
+                  {
+                    name,
+                    exponentialHistogram: {
+                      aggregationTemporality: 2,
+                      dataPoints: [
+                        {
+                          count: "1",
+                          sum: value,
+                          scale: 0,
+                          zeroCount: "0",
+                          positive: { offset: 0, bucketCounts: ["1"] },
+                          negative: { offset: 0, bucketCounts: [] },
+                          startTimeUnixNano: now,
+                          timeUnixNano: now,
+                          attributes: attrList,
+                        },
+                      ],
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+      await fetch(`${base}/v1/metrics`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(body),
+      });
     },
     async withRequestSpan(req, handle) {
       const url = new URL(req.url);

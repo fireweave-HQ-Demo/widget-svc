@@ -1,8 +1,15 @@
+export type ProbeMode = "health" | "metrics" | "metric-types";
+
 export async function probeApi(
   apiBase: string,
-  useMetricsProbe = false,
+  mode: ProbeMode = "health",
 ): Promise<{ ok: boolean; body: string }> {
-  const path = useMetricsProbe ? "/probe/metrics" : "/health";
+  const path =
+    mode === "metric-types"
+      ? "/probe/metric-types"
+      : mode === "metrics"
+        ? "/probe/metrics"
+        : "/health";
   try {
     const res = await fetch(`${apiBase.replace(/\/$/, "")}${path}`);
     const body = await res.text();

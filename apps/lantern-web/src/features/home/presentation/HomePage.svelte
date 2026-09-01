@@ -4,11 +4,18 @@
   import { clearSession } from "../../identity/application/auth-api";
   import { buildHomeModel } from "../application/home-model";
   import { probeApi } from "../application/probe-api";
-  import { increment } from "../../telemetry/infrastructure/start-browser-otel";
+  import { increment, setGauge, record, addUpDown, emitExponentialHistogram } from "../../telemetry/infrastructure/start-browser-otel";
   import { fw } from "../../../fireweave/fw-harness";
 
   const METRIC_ADOPTED = "feature.home-probe.adopted";
   const METRIC_ERROR = "feature.home-probe.error";
+  const METRIC_TYPES_ADOPTED = "feature.metric-types.adopted";
+  const METRIC_TYPES_ERROR = "feature.metric-types.error";
+  const METRIC_TYPES_COUNTER = "feature.metric-types.counter";
+  const METRIC_TYPES_GAUGE = "feature.metric-types.gauge";
+  const METRIC_TYPES_HISTOGRAM = "feature.metric-types.histogram";
+  const METRIC_TYPES_UPDOWN = "feature.metric-types.updown";
+  const METRIC_TYPES_EXP_HISTOGRAM = "feature.metric-types.exponential_histogram";
 
   let {
     ctx,
@@ -25,12 +32,32 @@
   async function onProbe() {
     // @fireweave-flag home-probe-metrics
     const metricsProbe = fw.controlPoints.getBooleanValue("home-probe-metrics", false);
-    const result = await probeApi(ctx.apiBase, metricsProbe);
+    const result = await probeApi(ctx.apiBase, metricsProbe ? "metrics" : "health");
     if (metricsProbe) {
       if (result.ok) {
         await increment(ctx, METRIC_ADOPTED);
       } else {
         await increment(ctx, METRIC_ERROR);
+      }
+    }
+    probe = result.body;
+    klass = result.ok ? "ok" : "bad";
+  }
+
+  async function onMetricTypesProbe() {
+    // @fireweave-flag metric-types-probe
+    const enabled = fw.controlPoints.getBooleanValue("metric-types-probe", false);
+    const result = await probeApi(ctx.apiBase, enabled ? "metric-types" : "health");
+    if (enabled) {
+      if (result.ok) {
+        await increment(ctx, METRIC_TYPES_COUNTER);
+        await setGauge(ctx, METRIC_TYPES_GAUGE, 42);
+        await record(ctx, METRIC_TYPES_HISTOGRAM, 12.5);
+        await addUpDown(ctx, METRIC_TYPES_UPDOWN, 1);
+        await emitExponentialHistogram(ctx, METRIC_TYPES_EXP_HISTOGRAM, 8);
+        await increment(ctx, METRIC_TYPES_ADOPTED);
+      } else {
+        await increment(ctx, METRIC_TYPES_ERROR);
       }
     }
     probe = result.body;
@@ -63,6 +90,7 @@
   </dl>
   <div class="actions">
     <button type="button" onclick={onProbe}>Probe API /health</button>
+    <button type="button" onclick={onMetricTypesProbe}>Emit all metric types</button>
     {#if session}
       <button type="button" class="link" onclick={onSignOut}>Sign out</button>
     {/if}

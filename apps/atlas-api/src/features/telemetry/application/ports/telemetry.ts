@@ -16,6 +16,16 @@ export type Telemetry = {
     value: number,
     attributes?: Record<string, string>,
   ): void;
+  /** Synchronous gauge — last value wins. */
+  setGauge(name: string, value: number, attributes?: Record<string, string>): void;
+  /** Up/down counter — non-monotonic sum. */
+  addUpDown(name: string, delta: number, attributes?: Record<string, string>): void;
+  /** Exponential histogram — OTLP native export. */
+  emitExponentialHistogram(
+    name: string,
+    value: number,
+    attributes?: Record<string, string>,
+  ): Promise<void>;
   shutdown(): Promise<void>;
   readonly exporterStatus: "healthy" | "degraded";
 };

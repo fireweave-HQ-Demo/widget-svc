@@ -191,7 +191,10 @@ def make_dev_provider() -> FireweaveClient:
         )
     """
     global _fw_client
-    _fw_client = init_fireweave(mode="local", local={"control_points": {"home-probe-metrics": True}})
+    _fw_client = init_fireweave(
+        mode="local",
+        local={"control_points": {"home-probe-metrics": True, "metric-types-probe": True}},
+    )
     return _fw_client
 
 
