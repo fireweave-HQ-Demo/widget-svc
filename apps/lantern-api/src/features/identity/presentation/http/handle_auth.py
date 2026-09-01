@@ -49,6 +49,12 @@ def handle_auth_session(store, method: str, headers, body: bytes) -> tuple[int, 
         logged = store.login(user_id)
         if not logged:
             return _json({"error": "unknown user"}, 404)
+        from src.fireweave.fw_providers import register_fw_target
+
+        register_fw_target(
+            logged["user"]["id"],
+            properties=logged.get("evaluationContext") or {},
+        )
         return _json(
             {
                 "sessionToken": logged["token"],

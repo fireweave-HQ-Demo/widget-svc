@@ -10,7 +10,12 @@ from src.features.identity.presentation.http.handle_auth import (
     handle_auth_session,
     handle_auth_users,
 )
+from src.features.home.presentation.http.handle_probe_metric_types import (
+    handle_probe_metric_types,
+)
 from src.features.telemetry.infrastructure.start_otel import Telemetry
+from src.fireweave.fw_harness import fw_control_points
+from fireweave import EvaluationContext
 
 CORS_METHODS = "GET, POST, PUT, DELETE, OPTIONS"
 CORS_HEADERS = "content-type, authorization"
@@ -59,6 +64,19 @@ def serve(ctx: RuntimeContext, telemetry: Telemetry, port: int, html: bool, iden
                 raw = home_body(ctx, html).encode()
                 ctype = "text/html; charset=utf-8" if html else "text/plain"
                 self._respond(200, raw, ctype)
+                return
+            # @fireweave-controlpoint metric-types-probe
+            if path == "/probe/metric-types" and method == "GET":
+                enabled = fw_control_points().get_boolean_value(
+                    "metric-types-probe",
+                    False,
+                    EvaluationContext(targeting_key=f"inst_{ctx.service}"),
+                )
+                if not enabled:
+                    self._respond(404, b"metric-types-probe disabled\n", "text/plain")
+                    return
+                status, body = handle_probe_metric_types(ctx, telemetry)
+                self._respond(status, body)
                 return
             self._respond(404, b"")
 

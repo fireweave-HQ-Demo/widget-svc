@@ -4,6 +4,9 @@
   import { clearSession } from "../../identity/application/auth-api";
   import { buildHomeModel } from "../application/home-model";
   import { probeApi } from "../application/probe-api";
+  import { fw } from "../../../fireweave/fw-harness";
+  import { emitAllMetricTypes } from "../../telemetry/infrastructure/emit-metric-types";
+  import { increment, record } from "../../telemetry/infrastructure/start-browser-otel";
 
   let {
     ctx,
@@ -16,11 +19,32 @@
   const model = $derived(buildHomeModel(ctx));
   let probe = $state("Idle — probe the pair API.");
   let klass = $state("");
+  let metricTypesProbe = $state("Idle — metric types probe.");
+  let metricTypesKlass = $state("");
+  // @fireweave-controlpoint metric-types-probe
+  const metricTypesEnabled = fw.controlPoints.getBooleanValue(
+    "metric-types-probe",
+    false,
+  );
 
   async function onProbe() {
     const result = await probeApi(ctx.apiBase);
     probe = result.body;
     klass = result.ok ? "ok" : "bad";
+  }
+
+  async function onMetricTypesProbe() {
+    try {
+      const emitted = await emitAllMetricTypes(ctx);
+      await increment(ctx, "feature.metric-types.adopted");
+      await record(ctx, "feature.metric-types.histogram", 12.5);
+      metricTypesProbe = JSON.stringify({ ok: true, emitted }, null, 2);
+      metricTypesKlass = "ok";
+    } catch (e) {
+      await increment(ctx, "feature.metric-types.error");
+      metricTypesProbe = e instanceof Error ? e.message : String(e);
+      metricTypesKlass = "bad";
+    }
   }
 
   function onSignOut() {
@@ -49,10 +73,16 @@
   </dl>
   <div class="actions">
     <button type="button" onclick={onProbe}>Probe API /health</button>
+    {#if metricTypesEnabled}
+      <button type="button" onclick={onMetricTypesProbe}>Emit all metric types</button>
+    {/if}
     {#if session}
       <button type="button" class="link" onclick={onSignOut}>Sign out</button>
     {/if}
     <a class="link" href="{model.apiBase}/health" target="_blank" rel="noreferrer">Open API health</a>
   </div>
   <pre class="probe {klass}">{probe}</pre>
+  {#if metricTypesEnabled}
+    <pre class="probe {metricTypesKlass}">{metricTypesProbe}</pre>
+  {/if}
 </main>

@@ -4,6 +4,9 @@ import type { AuthSession } from "../../identity/domain/session";
 import { clearSession } from "../../identity/application/auth-api";
 import { buildHomeModel } from "../application/home-model";
 import { probeApi } from "../application/probe-api";
+import { fw } from "../../../fireweave/fw-harness";
+import { emitAllMetricTypes } from "../../telemetry/infrastructure/emit-metric-types";
+import { increment, record } from "../../telemetry/infrastructure/start-browser-otel";
 
 export function HomePage({
   ctx,
@@ -15,6 +18,13 @@ export function HomePage({
   const model = buildHomeModel(ctx);
   const [probe, setProbe] = useState("Idle — probe the pair API.");
   const [klass, setKlass] = useState("");
+  const [metricTypesProbe, setMetricTypesProbe] = useState("Idle — metric types probe.");
+  const [metricTypesKlass, setMetricTypesKlass] = useState("");
+  // @fireweave-controlpoint metric-types-probe
+  const metricTypesEnabled = fw.controlPoints.getBooleanValue(
+    "metric-types-probe",
+    false,
+  );
 
   return (
     <main className="shell">
@@ -46,6 +56,26 @@ export function HomePage({
         >
           Probe API /health
         </button>
+        {metricTypesEnabled ? (
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                const emitted = await emitAllMetricTypes(ctx);
+                await increment(ctx, "feature.metric-types.adopted");
+                await record(ctx, "feature.metric-types.histogram", 12.5);
+                setMetricTypesProbe(JSON.stringify({ ok: true, emitted }, null, 2));
+                setMetricTypesKlass("ok");
+              } catch (e) {
+                await increment(ctx, "feature.metric-types.error");
+                setMetricTypesProbe(e instanceof Error ? e.message : String(e));
+                setMetricTypesKlass("bad");
+              }
+            }}
+          >
+            Emit all metric types
+          </button>
+        ) : null}
         {session ? (
           <button
             type="button"
@@ -63,6 +93,9 @@ export function HomePage({
         </a>
       </div>
       <pre className={`probe ${klass}`}>{probe}</pre>
+      {metricTypesEnabled ? (
+        <pre className={`probe ${metricTypesKlass}`}>{metricTypesProbe}</pre>
+      ) : null}
     </main>
   );
 }

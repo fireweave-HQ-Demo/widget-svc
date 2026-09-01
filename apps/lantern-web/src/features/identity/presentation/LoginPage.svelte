@@ -3,6 +3,7 @@
   import type { RuntimeContext } from "../../../core/runtime-context";
   import type { AuthSession, BenchUser } from "../domain/session";
   import { fetchUsers, loginAs } from "../application/auth-api";
+  import { syncFireweaveUser } from "../../../fireweave/fw-providers";
 
   let {
     ctx,
@@ -31,6 +32,7 @@
     error = "";
     try {
       const session = await loginAs(ctx.apiBase, userId);
+      void syncFireweaveUser(session.user.id, session.evaluationContext);
       onLoggedIn(session);
     } catch (e) {
       error = e instanceof Error ? e.message : String(e);

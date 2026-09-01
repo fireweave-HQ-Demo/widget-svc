@@ -1,8 +1,11 @@
 import type { RuntimeContext } from "../core/runtime-context";
 import type { Telemetry } from "../features/telemetry/application/ports/telemetry";
 import type { IdentityStore } from "../features/identity/application/ports/identity-store";
+import { fw } from "../fireweave/fw-harness";
+import { resolveInstanceTargetingKey } from "../fireweave/fw-providers";
 import { handleHealth } from "../features/health/presentation/http/handle-health";
 import { handleHome } from "../features/home/presentation/http/handle-home";
+import { handleProbeMetricTypes } from "../features/home/presentation/http/handle-probe-metric-types";
 import {
   handleAuthConfig,
   handleAuthSession,
@@ -44,6 +47,18 @@ export function createFetch(
       }
       if (path === "/auth/session") {
         return handleAuthSession(identity, req);
+      }
+      // @fireweave-controlpoint metric-types-probe
+      if (path === "/probe/metric-types" && req.method === "GET") {
+        const enabled = await fw.controlPoints.getBooleanValue(
+          "metric-types-probe",
+          false,
+          { targetingKey: resolveInstanceTargetingKey() },
+        );
+        if (!enabled) {
+          return new Response("metric-types-probe disabled\n", { status: 404 });
+        }
+        return handleProbeMetricTypes(ctx, telemetry);
       }
       return new Response("not found\n", { status: 404 });
     });
