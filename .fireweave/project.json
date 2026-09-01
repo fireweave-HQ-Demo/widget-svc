@@ -1,0 +1,93 @@
+{
+  "orgId": "F58gdkA4pUKdH3Ae4xJTJKHkJ8LfmzH1",
+  "projectId": "77d7a42c-e1d4-4b1c-85e0-3eb2b2573cf7",
+  "projectName": "test_dd",
+  "server": {
+    "url": "https://app-server.fireweave.ai",
+    "kind": "cloud"
+  },
+  "repoState": "server",
+  "version": 2,
+  "defaultEnvironment": "prod",
+  "cli": {
+    "initVersion": "2.5.0"
+  },
+  "surfaces": [
+    {
+      "surface": "ts-server",
+      "surfaceId": "sfc_01M1F4K3WD0CXN4DVHCE1ZXRPN",
+      "path": "apps/atlas-api/src/fireweave",
+      "entrypoint": "apps/atlas-api/src/main.ts",
+      "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
+      "trackerPath": "apps/atlas-api/src/fireweave/fw-tracker.ts",
+      "metricsClient": "OpenTelemetry MeterProvider via startOtel()"
+    },
+    {
+      "surface": "web",
+      "surfaceId": "sfc_01M1F4K3WD0CXN4DVHCE1ZXRPP",
+      "path": "apps/atlas-web/src/fireweave",
+      "entrypoint": "apps/atlas-web/src/main.tsx",
+      "rolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
+      "trackerPath": "apps/atlas-web/src/fireweave/fw-tracker.ts",
+      "metricsClient": "OTLP HTTP helpers in start-browser-otel.ts"
+    },
+    {
+      "surface": "python",
+      "surfaceId": "sfc_01M1F4K3WD0CXN4DVHCE1ZXRPQ",
+      "path": "apps/lantern-api/src/fireweave",
+      "entrypoint": "apps/lantern-api/src/main.py",
+      "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
+      "trackerPath": "apps/lantern-api/src/fireweave/fw_tracker.py",
+      "metricsClient": "Telemetry class in start_otel.py"
+    },
+    {
+      "surface": "web",
+      "surfaceId": "sfc_01M1F4K3WD0CXN4DVHCE1ZXRPR",
+      "path": "apps/lantern-web/src/fireweave",
+      "entrypoint": "apps/lantern-web/src/main.ts",
+      "rolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
+      "trackerPath": "apps/lantern-web/src/fireweave/fw-tracker.ts",
+      "metricsClient": "OTLP HTTP helpers in start-browser-otel.ts"
+    }
+  ],
+  "rolloutReady": {
+    "attestUrl": "https://app-server.fireweave.ai",
+    "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
+    "webRolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
+    "defaultEnvironment": "prod",
+    "promotionEnvironment": "prod",
+    "posthogProjectId": "534542",
+    "environments": {
+      "dev": { "tier": "dev" },
+      "prod": { "tier": "prod" }
+    },
+    "harnessEntrypoint": "apps/atlas-api/src/main.ts",
+    "harnessPath": "apps/atlas-api/src/fireweave/fw-harness.ts",
+    "harnesses": [
+      {
+        "surface": "ts-server",
+        "path": "apps/atlas-api/src/fireweave/fw-harness.ts",
+        "entrypoint": "apps/atlas-api/src/main.ts",
+        "trackerPath": "apps/atlas-api/src/fireweave/fw-tracker.ts"
+      },
+      {
+        "surface": "web",
+        "path": "apps/atlas-web/src/fireweave/fw-harness.ts",
+        "entrypoint": "apps/atlas-web/src/main.tsx",
+        "trackerPath": "apps/atlas-web/src/fireweave/fw-tracker.ts"
+      },
+      {
+        "surface": "python",
+        "path": "apps/lantern-api/src/fireweave/fw_harness.py",
+        "entrypoint": "apps/lantern-api/src/main.py",
+        "trackerPath": "apps/lantern-api/src/fireweave/fw_tracker.py"
+      },
+      {
+        "surface": "web",
+        "path": "apps/lantern-web/src/fireweave/fw-harness.ts",
+        "entrypoint": "apps/lantern-web/src/main.ts",
+        "trackerPath": "apps/lantern-web/src/fireweave/fw-tracker.ts"
+      }
+    ]
+  }
+}

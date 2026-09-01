@@ -1,0 +1,4 @@
+.cache/
+.queue/
+local.json
+.lock
