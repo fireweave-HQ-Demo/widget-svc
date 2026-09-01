@@ -1,1 +1,3 @@
 # stdlib-only fixture — OTLP via urllib
+# FireWeave control-points SDK (install from TestPyPI in deploy image)
+fireweave

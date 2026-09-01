@@ -5,6 +5,7 @@ from urllib.parse import urlparse
 from src.core.runtime_context import RuntimeContext
 from src.features.health.application.get_health import get_health
 from src.features.home.application.get_home import home_body
+from src.features.home.presentation.http.handle_probe_metrics import handle_probe_metrics
 from src.features.identity.presentation.http.handle_auth import (
     handle_auth_config,
     handle_auth_session,
@@ -40,6 +41,11 @@ def serve(ctx: RuntimeContext, telemetry: Telemetry, port: int, html: bool, iden
             if path == "/health":
                 body = json.dumps(get_health(ctx, telemetry.exporter_status)).encode()
                 self._respond(200, body)
+                return
+            if path == "/probe/metrics" and method == "GET":
+                # @fireweave-flag home-probe-metrics
+                status, body = handle_probe_metrics(ctx, telemetry)
+                self._respond(status, body)
                 return
             if path == "/auth/config" and method == "GET":
                 status, body = handle_auth_config(identity)

@@ -4,6 +4,11 @@
   import { clearSession } from "../../identity/application/auth-api";
   import { buildHomeModel } from "../application/home-model";
   import { probeApi } from "../application/probe-api";
+  import { increment } from "../../telemetry/infrastructure/start-browser-otel";
+  import { fw } from "../../../fireweave/fw-harness";
+
+  const METRIC_ADOPTED = "feature.home-probe.adopted";
+  const METRIC_ERROR = "feature.home-probe.error";
 
   let {
     ctx,
@@ -18,7 +23,16 @@
   let klass = $state("");
 
   async function onProbe() {
-    const result = await probeApi(ctx.apiBase);
+    // @fireweave-flag home-probe-metrics
+    const metricsProbe = fw.controlPoints.getBooleanValue("home-probe-metrics", false);
+    const result = await probeApi(ctx.apiBase, metricsProbe);
+    if (metricsProbe) {
+      if (result.ok) {
+        await increment(ctx, METRIC_ADOPTED);
+      } else {
+        await increment(ctx, METRIC_ERROR);
+      }
+    }
     probe = result.body;
     klass = result.ok ? "ok" : "bad";
   }

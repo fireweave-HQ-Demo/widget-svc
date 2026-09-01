@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { RuntimeContext } from "../../../core/runtime-context";
 import type { AuthSession, BenchUser } from "../domain/session";
+import { syncFireweaveUser } from "../../../fireweave/fw-providers";
 import {
   fetchUsers,
   loginAs,
@@ -46,6 +47,7 @@ export function LoginPage({
                 setError("");
                 try {
                   const session = await loginAs(ctx.apiBase, u.id);
+                  void syncFireweaveUser(session.user.id, session.evaluationContext.properties);
                   onLoggedIn(session);
                 } catch (e) {
                   setError(e instanceof Error ? e.message : String(e));
