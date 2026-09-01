@@ -1,0 +1,12 @@
+{
+  "managedBy": "bench-fireweave-link",
+  "skills": [
+    "fw-feedback",
+    "fw-adopt",
+    "fw-cleanup",
+    "fw-rollout",
+    "fw-migrate-harness",
+    "fw-initialise"
+  ],
+  "source": "/Users/kalyanchowdary/Desktop/code/work/test-bench/bench/workspaces/stg_dd_bench/tooling/marketplace"
+}
