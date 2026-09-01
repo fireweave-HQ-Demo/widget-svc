@@ -21,6 +21,13 @@
   let klass = $state("");
   let metricTypesProbe = $state("Idle — metric types probe.");
   let metricTypesKlass = $state("");
+  let homeProbe = $state("Idle — home probe metrics.");
+  let homeProbeKlass = $state("");
+  // @fireweave-controlpoint home-probe-metrics
+  const homeProbeEnabled = fw.controlPoints.getBooleanValue(
+    "home-probe-metrics",
+    false,
+  );
   // @fireweave-controlpoint metric-types-probe
   const metricTypesEnabled = fw.controlPoints.getBooleanValue(
     "metric-types-probe",
@@ -31,6 +38,20 @@
     const result = await probeApi(ctx.apiBase);
     probe = result.body;
     klass = result.ok ? "ok" : "bad";
+  }
+
+  async function onHomeProbe() {
+    try {
+      await increment(ctx, "feature.home-probe.adopted");
+      const res = await fetch(`${ctx.apiBase}/probe/metrics`);
+      homeProbe = await res.text();
+      homeProbeKlass = res.ok ? "ok" : "bad";
+      if (!res.ok) await increment(ctx, "feature.home-probe.error");
+    } catch (e) {
+      await increment(ctx, "feature.home-probe.error");
+      homeProbe = e instanceof Error ? e.message : String(e);
+      homeProbeKlass = "bad";
+    }
   }
 
   async function onMetricTypesProbe() {
@@ -73,6 +94,9 @@
   </dl>
   <div class="actions">
     <button type="button" onclick={onProbe}>Probe API /health</button>
+    {#if homeProbeEnabled}
+      <button type="button" onclick={onHomeProbe}>Probe /probe/metrics</button>
+    {/if}
     {#if metricTypesEnabled}
       <button type="button" onclick={onMetricTypesProbe}>Emit all metric types</button>
     {/if}
@@ -82,6 +106,9 @@
     <a class="link" href="{model.apiBase}/health" target="_blank" rel="noreferrer">Open API health</a>
   </div>
   <pre class="probe {klass}">{probe}</pre>
+  {#if homeProbeEnabled}
+    <pre class="probe {homeProbeKlass}">{homeProbe}</pre>
+  {/if}
   {#if metricTypesEnabled}
     <pre class="probe {metricTypesKlass}">{metricTypesProbe}</pre>
   {/if}

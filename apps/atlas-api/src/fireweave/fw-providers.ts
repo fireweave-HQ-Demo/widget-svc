@@ -201,7 +201,7 @@ export async function makeDevProvider(): Promise<FireweaveClient> {
   await loadInstanceId();
   fwClient = await initFireweave({
     mode: 'local',
-    local: { controlPoints: { 'metric-types-probe': true } },
+    local: { controlPoints: { 'metric-types-probe': true, 'home-probe-metrics': true } },
   });
   return fwClient;
 }

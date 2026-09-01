@@ -5,6 +5,7 @@ import { fw } from "../fireweave/fw-harness";
 import { resolveInstanceTargetingKey } from "../fireweave/fw-providers";
 import { handleHealth } from "../features/health/presentation/http/handle-health";
 import { handleHome } from "../features/home/presentation/http/handle-home";
+import { handleProbeMetrics } from "../features/home/presentation/http/handle-probe-metrics";
 import { handleProbeMetricTypes } from "../features/home/presentation/http/handle-probe-metric-types";
 import {
   handleAuthConfig,
@@ -47,6 +48,18 @@ export function createFetch(
       }
       if (path === "/auth/session") {
         return handleAuthSession(identity, req);
+      }
+      // @fireweave-controlpoint home-probe-metrics
+      if (path === "/probe/metrics" && req.method === "GET") {
+        const enabled = await fw.controlPoints.getBooleanValue(
+          "home-probe-metrics",
+          false,
+          { targetingKey: resolveInstanceTargetingKey() },
+        );
+        if (!enabled) {
+          return new Response("home-probe-metrics disabled\n", { status: 404 });
+        }
+        return handleProbeMetrics(telemetry);
       }
       // @fireweave-controlpoint metric-types-probe
       if (path === "/probe/metric-types" && req.method === "GET") {

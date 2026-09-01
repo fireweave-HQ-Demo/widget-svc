@@ -13,6 +13,9 @@ from src.features.identity.presentation.http.handle_auth import (
 from src.features.home.presentation.http.handle_probe_metric_types import (
     handle_probe_metric_types,
 )
+from src.features.home.presentation.http.handle_probe_metrics import (
+    handle_probe_metrics,
+)
 from src.features.telemetry.infrastructure.start_otel import Telemetry
 from src.fireweave.fw_harness import fw_control_points
 from fireweave import EvaluationContext
@@ -64,6 +67,19 @@ def serve(ctx: RuntimeContext, telemetry: Telemetry, port: int, html: bool, iden
                 raw = home_body(ctx, html).encode()
                 ctype = "text/html; charset=utf-8" if html else "text/plain"
                 self._respond(200, raw, ctype)
+                return
+            # @fireweave-controlpoint home-probe-metrics
+            if path == "/probe/metrics" and method == "GET":
+                enabled = fw_control_points().get_boolean_value(
+                    "home-probe-metrics",
+                    False,
+                    EvaluationContext(targeting_key=f"inst_{ctx.service}"),
+                )
+                if not enabled:
+                    self._respond(404, b"home-probe-metrics disabled\n", "text/plain")
+                    return
+                status, body = handle_probe_metrics(telemetry)
+                self._respond(status, body)
                 return
             # @fireweave-controlpoint metric-types-probe
             if path == "/probe/metric-types" and method == "GET":

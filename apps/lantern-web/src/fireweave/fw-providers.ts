@@ -272,7 +272,7 @@ export async function makeConnectedVendorProvider(): Promise<FireweaveWebClient>
 export async function makeDevProvider(): Promise<FireweaveWebClient> {
   fwClient = await initFireweave({
     mode: 'local',
-    local: { controlPoints: { 'metric-types-probe': true } },
+    local: { controlPoints: { 'metric-types-probe': true, 'home-probe-metrics': true } },
     context: { targetingKey: resolveDeviceTargetingKey() },
   });
   return fwClient;

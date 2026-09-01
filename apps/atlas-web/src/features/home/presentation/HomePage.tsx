@@ -20,6 +20,13 @@ export function HomePage({
   const [klass, setKlass] = useState("");
   const [metricTypesProbe, setMetricTypesProbe] = useState("Idle — metric types probe.");
   const [metricTypesKlass, setMetricTypesKlass] = useState("");
+  const [homeProbe, setHomeProbe] = useState("Idle — home probe metrics.");
+  const [homeProbeKlass, setHomeProbeKlass] = useState("");
+  // @fireweave-controlpoint home-probe-metrics
+  const homeProbeEnabled = fw.controlPoints.getBooleanValue(
+    "home-probe-metrics",
+    false,
+  );
   // @fireweave-controlpoint metric-types-probe
   const metricTypesEnabled = fw.controlPoints.getBooleanValue(
     "metric-types-probe",
@@ -56,6 +63,27 @@ export function HomePage({
         >
           Probe API /health
         </button>
+        {homeProbeEnabled ? (
+          <button
+            type="button"
+            onClick={async () => {
+              try {
+                await increment(ctx, "feature.home-probe.adopted");
+                const res = await fetch(`${ctx.apiBase}/probe/metrics`);
+                const body = await res.text();
+                setHomeProbe(body);
+                setHomeProbeKlass(res.ok ? "ok" : "bad");
+                if (!res.ok) await increment(ctx, "feature.home-probe.error");
+              } catch (e) {
+                await increment(ctx, "feature.home-probe.error");
+                setHomeProbe(e instanceof Error ? e.message : String(e));
+                setHomeProbeKlass("bad");
+              }
+            }}
+          >
+            Probe /probe/metrics
+          </button>
+        ) : null}
         {metricTypesEnabled ? (
           <button
             type="button"
@@ -93,6 +121,9 @@ export function HomePage({
         </a>
       </div>
       <pre className={`probe ${klass}`}>{probe}</pre>
+      {homeProbeEnabled ? (
+        <pre className={`probe ${homeProbeKlass}`}>{homeProbe}</pre>
+      ) : null}
       {metricTypesEnabled ? (
         <pre className={`probe ${metricTypesKlass}`}>{metricTypesProbe}</pre>
       ) : null}
