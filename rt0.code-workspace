@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "rt0",
+      "path": "."
+    },
+    {
+      "name": "apps",
+      "path": "apps"
+    }
+  ]
+}

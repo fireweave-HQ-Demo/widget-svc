@@ -1,0 +1,14 @@
+{
+  "managedBy": "bench-fireweave-link",
+  "skills": [
+    "fw-rollout",
+    "fw-feedback",
+    "fw-ci-rollout-readiness",
+    "fw-initialise",
+    "fw-ci-register-control-points",
+    "fw-cleanup",
+    "fw-adopt",
+    "fw-migrate-harness"
+  ],
+  "source": "/workspaces/test-bench/bench/workspaces/rt0/tooling/marketplace"
+}
