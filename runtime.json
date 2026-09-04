@@ -1,0 +1,44 @@
+{
+  "destination": "oodle",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18060,
+        "atlas-web": 18061,
+        "lantern-api": 18062,
+        "lantern-web": 18063,
+        "quay-api": 18064,
+        "quay-web": 18065,
+        "collector-otlp": 18066,
+        "collector-status": 18067
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "atlas-api": 18068,
+        "atlas-web": 18069,
+        "lantern-api": 18070,
+        "lantern-web": 18071,
+        "quay-api": 18072,
+        "quay-web": 18073,
+        "collector-otlp": 18074,
+        "collector-status": 18075
+      },
+      "running": false
+    }
+  ],
+  "fireweave": {
+    "instance": "staging",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/stg_polyglot"
+  },
+  "updatedAt": "2026-09-04T15:51:39.724Z"
+}
