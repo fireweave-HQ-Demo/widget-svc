@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "stg_bench",
+      "path": "."
+    },
+    {
+      "name": "apps",
+      "path": "apps"
+    }
+  ]
+}
