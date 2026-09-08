@@ -1,0 +1,2 @@
+# stdlib-only fixture — OTLP via urllib
+fireweave

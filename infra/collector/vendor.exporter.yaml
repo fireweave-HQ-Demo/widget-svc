@@ -1,0 +1,8 @@
+# Oodle — credentials at bench/credentials/oodle
+# Spawn/UI with --oodle-instance/--oodle-api-key wires otlphttp/oodle automatically.
+# Manual:
+#   OODLE_INSTANCE=<instance>
+#   OODLE_API_KEY=...
+#   OODLE_TRACES_ENDPOINT=https://<instance>-otlp.collector.oodle.ai/v1/traces
+#   OODLE_METRICS_ENDPOINT=https://<instance>-otlp.collector.oodle.ai/v1/metrics
+#   OODLE_LOGS_ENDPOINT=https://<instance>-otlp.collector.oodle.ai/v1/logs

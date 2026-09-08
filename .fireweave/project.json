@@ -1,0 +1,127 @@
+{
+  "orgId": "wSKWkS4a768YWPNISKLjhnFUwJKArZXb",
+  "projectId": "efa1f8cb-f249-4f3a-98a5-74414ae525b1",
+  "projectName": "stg_polyglot",
+  "server": {
+    "url": "https://staging-app-server.fireweave.ai",
+    "kind": "custom"
+  },
+  "repoState": "server",
+  "version": 2,
+  "defaultEnvironment": "production",
+  "surfaces": [
+    {
+      "surface": "ts-server",
+      "surfaceId": "sfc_01M1PJ8RXJB6JD8FSHPBRMA429",
+      "path": "apps/atlas-api/src/fireweave/fw-harness.ts",
+      "entrypoint": "apps/atlas-api/src/main.ts",
+      "harnessEntrypoint": "apps/atlas-api/src/main.ts",
+      "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
+      "trackerPath": "apps/atlas-api/src/fireweave/fw-tracker.ts",
+      "metricsClient": "opentelemetry",
+      "sdk": { "name": "@fireweaveai/server-sdk", "channel": "staging" }
+    },
+    {
+      "surface": "web",
+      "surfaceId": "sfc_01M1PJ8RXJB6JD8FSHPBRMA42A",
+      "path": "apps/atlas-web/src/fireweave/fw-harness.ts",
+      "entrypoint": "apps/atlas-web/src/main.tsx",
+      "rolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
+      "trackerPath": "apps/atlas-web/src/fireweave/fw-tracker.ts",
+      "metricsClient": "browser-otlp",
+      "sdk": { "name": "@fireweaveai/web-sdk", "channel": "staging" }
+    },
+    {
+      "surface": "python",
+      "surfaceId": "sfc_01M1PJ8RXJB6JD8FSHPBRMA42B",
+      "path": "apps/lantern-api/src/fireweave/fw_harness.py",
+      "entrypoint": "apps/lantern-api/src/main.py",
+      "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
+      "trackerPath": "apps/lantern-api/src/fireweave/fw_tracker.py",
+      "metricsClient": "opentelemetry",
+      "sdk": { "name": "fireweave", "channel": "staging" }
+    },
+    {
+      "surface": "web",
+      "surfaceId": "sfc_01M1PJ8RXJB6JD8FSHPBRMA42C",
+      "path": "apps/lantern-web/src/fireweave/fw-harness.ts",
+      "entrypoint": "apps/lantern-web/src/main.ts",
+      "rolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
+      "trackerPath": "apps/lantern-web/src/fireweave/fw-tracker.ts",
+      "metricsClient": "browser-otlp",
+      "sdk": { "name": "@fireweaveai/web-sdk", "channel": "staging" }
+    },
+    {
+      "surface": "go",
+      "surfaceId": "sfc_01M1PJ8RXJB6JD8FSHPBRMA42D",
+      "path": "apps/quay-api/src/fireweave/fw_harness.go",
+      "entrypoint": "apps/quay-api/src/main.go",
+      "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
+      "trackerPath": "apps/quay-api/src/fireweave/fw_tracker.go",
+      "metricsClient": "opentelemetry",
+      "sdk": { "name": "github.com/FireWeave-HQ/fireweave-sdk/sdks/go/fireweave", "channel": "staging" }
+    },
+    {
+      "surface": "web",
+      "surfaceId": "sfc_01M1PJ8RXJB6JD8FSHPBRMA42E",
+      "path": "apps/quay-web/src/fireweave/fw-harness.ts",
+      "entrypoint": "apps/quay-web/src/main.tsx",
+      "rolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
+      "trackerPath": "apps/quay-web/src/fireweave/fw-tracker.ts",
+      "metricsClient": "browser-otlp",
+      "sdk": { "name": "@fireweaveai/web-sdk", "channel": "staging" }
+    }
+  ],
+  "rolloutReady": {
+    "attestUrl": "https://staging-app-server.fireweave.ai",
+    "rolloutCredentialEnv": "FW_PROJECT_API_KEY",
+    "webRolloutCredentialEnv": "PUBLIC_FW_PROJECT_API_KEY",
+    "defaultEnvironment": "production",
+    "promotionEnvironment": "production",
+    "environments": {
+      "dev": { "tier": "dev" },
+      "production": { "tier": "prod" }
+    },
+    "harnessEntrypoint": "apps/atlas-api/src/main.ts",
+    "harnessPath": "apps/atlas-api/src/fireweave/fw-harness.ts",
+    "harnesses": [
+      {
+        "surface": "ts-server",
+        "harnessPath": "apps/atlas-api/src/fireweave/fw-harness.ts",
+        "harnessEntrypoint": "apps/atlas-api/src/main.ts",
+        "trackerPath": "apps/atlas-api/src/fireweave/fw-tracker.ts"
+      },
+      {
+        "surface": "web",
+        "harnessPath": "apps/atlas-web/src/fireweave/fw-harness.ts",
+        "harnessEntrypoint": "apps/atlas-web/src/main.tsx",
+        "trackerPath": "apps/atlas-web/src/fireweave/fw-tracker.ts"
+      },
+      {
+        "surface": "python",
+        "harnessPath": "apps/lantern-api/src/fireweave/fw_harness.py",
+        "harnessEntrypoint": "apps/lantern-api/src/main.py",
+        "trackerPath": "apps/lantern-api/src/fireweave/fw_tracker.py"
+      },
+      {
+        "surface": "web",
+        "harnessPath": "apps/lantern-web/src/fireweave/fw-harness.ts",
+        "harnessEntrypoint": "apps/lantern-web/src/main.ts",
+        "trackerPath": "apps/lantern-web/src/fireweave/fw-tracker.ts"
+      },
+      {
+        "surface": "go",
+        "harnessPath": "apps/quay-api/src/fireweave/fw_harness.go",
+        "harnessEntrypoint": "apps/quay-api/src/main.go",
+        "trackerPath": "apps/quay-api/src/fireweave/fw_tracker.go"
+      },
+      {
+        "surface": "web",
+        "harnessPath": "apps/quay-web/src/fireweave/fw-harness.ts",
+        "harnessEntrypoint": "apps/quay-web/src/main.tsx",
+        "trackerPath": "apps/quay-web/src/fireweave/fw-tracker.ts"
+      }
+    ],
+    "mcp": { "mode": "cursor-plugin" }
+  }
+}

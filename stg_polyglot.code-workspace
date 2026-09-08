@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "stg_polyglot",
+      "path": "."
+    },
+    {
+      "name": "apps",
+      "path": "apps"
+    }
+  ]
+}

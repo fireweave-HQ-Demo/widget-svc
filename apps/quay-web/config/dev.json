@@ -1,0 +1,5 @@
+{
+  "service": "quay-web",
+  "environment": "dev",
+  "stack": "go+solid"
+}

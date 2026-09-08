@@ -1,0 +1,88 @@
+{
+  "name": "stg_polyglot",
+  "persistence": "ephemeral",
+  "identity": false,
+  "identityUserCount": 0,
+  "apps": [
+    {
+      "id": "atlas",
+      "kind": "pair",
+      "stack": "bun+react",
+      "services": [
+        "atlas-api",
+        "atlas-web"
+      ]
+    },
+    {
+      "id": "lantern",
+      "kind": "pair",
+      "stack": "python+svelte",
+      "services": [
+        "lantern-api",
+        "lantern-web"
+      ]
+    },
+    {
+      "id": "quay",
+      "kind": "pair",
+      "stack": "go+solid",
+      "services": [
+        "quay-api",
+        "quay-web"
+      ]
+    }
+  ],
+  "destination": "oodle",
+  "exporterStatus": "healthy",
+  "fireweave": {
+    "instance": "staging",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc.git",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "bench/stg_polyglot"
+  },
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18060,
+        "atlas-web": 18061,
+        "lantern-api": 18062,
+        "lantern-web": 18063,
+        "quay-api": 18064,
+        "quay-web": 18065,
+        "collector-otlp": 18066,
+        "collector-status": 18067
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "atlas-api": 18068,
+        "atlas-web": 18069,
+        "lantern-api": 18070,
+        "lantern-web": 18071,
+        "quay-api": 18072,
+        "quay-web": 18073,
+        "collector-otlp": 18074,
+        "collector-status": 18075
+      },
+      "running": false
+    }
+  ],
+  "ports": {
+    "atlas-api": 18060,
+    "atlas-web": 18061,
+    "lantern-api": 18062,
+    "lantern-web": 18063,
+    "quay-api": 18064,
+    "quay-web": 18065,
+    "collector-otlp": 18066,
+    "collector-status": 18067
+  },
+  "benchVersion": "0.1.0",
+  "schemaVersion": 1
+}
