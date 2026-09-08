@@ -1,0 +1,5 @@
+{
+  "service": "atlas-api",
+  "environment": "dev",
+  "stack": "bun+react"
+}

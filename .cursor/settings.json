@@ -1,0 +1,15 @@
+{
+  "plugins": {
+    "fireweave/fireweave": {
+      "enabled": false
+    },
+    "fireweave-local/fireweave": {
+      "enabled": false
+    },
+    "fireweave-staging/fireweave": {
+      "enabled": true,
+      "gitUrl": "https://github.com/FireWeave-HQ/plugins-marketplace-staging",
+      "gitRef": "main"
+    }
+  }
+}

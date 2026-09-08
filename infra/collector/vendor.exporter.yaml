@@ -1,0 +1,7 @@
+# OpenObserve — credentials at bench/credentials/openobserve
+# Spawn/UI with --oo-url/--oo-email/--oo-token wires otlphttp/openobserve automatically.
+# Manual:
+#   OPENOBSERVE_URL=https://api.openobserve.ai/api/<org>
+#   OPENOBSERVE_EMAIL=...
+#   OPENOBSERVE_TOKEN=...
+#   OPENOBSERVE_AUTH=<base64 email:token>
