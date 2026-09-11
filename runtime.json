@@ -1,0 +1,36 @@
+{
+  "destination": "datadog",
+  "exporterStatus": "healthy",
+  "environments": [
+    {
+      "name": "dev",
+      "bucket": "local",
+      "ports": {
+        "atlas-api": 18102,
+        "atlas-web": 18103,
+        "collector-otlp": 18104,
+        "collector-status": 18105
+      },
+      "running": true
+    },
+    {
+      "name": "prod",
+      "bucket": "remote",
+      "ports": {
+        "atlas-api": 18106,
+        "atlas-web": 18107,
+        "collector-otlp": 18108,
+        "collector-status": 18109
+      },
+      "running": false
+    }
+  ],
+  "fireweave": {
+    "instance": "prod",
+    "status": "linked",
+    "agentGitUrl": "https://github.com/fireweave-HQ-Demo/widget-svc",
+    "agentGitBaseBranch": "main",
+    "agentGitBranch": "test_validate"
+  },
+  "updatedAt": "2026-09-11T17:28:15.910Z"
+}

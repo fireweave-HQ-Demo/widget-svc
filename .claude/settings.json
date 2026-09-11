@@ -1,0 +1,16 @@
+{
+  "enabledPlugins": {
+    "fireweave@fireweave": true,
+    "fireweave@fireweave-staging": false,
+    "fireweave@fireweave-local": false
+  },
+  "extraKnownMarketplaces": {
+    "fireweave": {
+      "source": {
+        "source": "git",
+        "url": "https://github.com/FireWeave-HQ/plugins-marketplace.git"
+      },
+      "autoUpdate": true
+    }
+  }
+}

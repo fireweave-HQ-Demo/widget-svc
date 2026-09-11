@@ -1,0 +1,40 @@
+# Workspace collector — destination=datadog (live)
+# OTLP → Datadog via datadog exporter (+ debug).
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+        cors:
+          allowed_origins:
+            - http://127.0.0.1:*
+            - http://localhost:*
+            - http://*
+          allowed_headers:
+            - "*"
+
+exporters:
+  debug:
+    verbosity: basic
+  datadog:
+    api:
+      key: ${env:DD_API_KEY}
+      site: ${env:DD_SITE}
+      fail_on_invalid_key: false
+
+extensions:
+  health_check:
+    endpoint: 0.0.0.0:13133
+
+service:
+  extensions: [health_check]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      exporters: [debug, datadog]
+    logs:
+      receivers: [otlp]
+      exporters: [debug, datadog]
+    metrics:
+      receivers: [otlp]
+      exporters: [debug, datadog]
